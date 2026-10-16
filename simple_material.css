@@ -103,6 +103,7 @@
       oklch(95% 0.01 var(--hue)),
       oklch(31% 0.01 var(--hue))
     );
+    --hover: color-mix(in srgb, var(--on-surface) 8%, transparent);
     --elev-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);
     --elev-2: 0 1px 2px rgb(0 0 0 / 0.3), 0 2px 6px 2px rgb(0 0 0 / 0.15);
     --elev-3: 0 1px 3px rgb(0 0 0 / 0.3), 0 4px 8px 3px rgb(0 0 0 / 0.15);
@@ -113,6 +114,7 @@
     --check: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
     --font: Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
     --mono: "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+    --label: 500 0.875rem/1.25rem var(--font);
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     font: 400 1rem/1.5 var(--font);
@@ -167,15 +169,7 @@
     > * {
       margin: 0;
     }
-    > nav {
-      display: flex;
-      flex: 1 1 auto;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem 1rem;
-    }
-    > a,
-    > nav > a {
+    > a {
       min-width: 0;
       margin-inline-end: auto;
       overflow: hidden;
@@ -227,13 +221,12 @@
   }
 
   /* Side nav: body > nav, a sticky column on wide screens. On narrow screens a
-     nav with popover becomes a modal drawer; without popover, a scrolling strip. */
+     nav with popover becomes a modal drawer opened from the app bar. */
 
   body > nav {
     padding: 0.5rem 0.75rem;
     ul {
       flex-direction: column;
-      flex-wrap: nowrap;
       align-items: stretch;
     }
     ul a {
@@ -264,11 +257,11 @@
       max-height: calc(100dvh - 4rem);
       overflow-y: auto;
     }
+    /* Shown in the page rather than as a popover */
     body > nav[popover] {
       display: block;
       inset: 4rem auto auto;
       width: auto;
-      height: auto;
       margin: 0;
       background: none;
       color: inherit;
@@ -281,20 +274,8 @@
   }
 
   @media (width < 64rem) {
-    body > nav:not([popover]) {
-      padding-top: 0;
-      ul {
-        flex-direction: row;
-        overflow-x: auto;
-        scrollbar-width: none;
-      }
-      ul a {
-        min-height: 2.5rem;
-        padding-inline: 1rem;
-        white-space: nowrap;
-      }
-    }
     body > nav[popover] {
+      --from: -100% 0;
       inset: 0 auto 0 0;
       width: min(22.5rem, 100vw - 3.5rem);
       height: 100dvh;
@@ -303,34 +284,6 @@
       border-radius: 0 1rem 1rem 0;
       background: var(--surface-low);
       color: var(--on-surface);
-      opacity: 1;
-      translate: -100% 0;
-      transition:
-        translate var(--slow) var(--ease),
-        overlay var(--slow) allow-discrete,
-        display var(--slow) allow-discrete;
-      &:popover-open {
-        translate: 0;
-      }
-      &::backdrop {
-        background: rgb(0 0 0 / 0);
-        transition:
-          background-color var(--slow),
-          overlay var(--slow) allow-discrete,
-          display var(--slow) allow-discrete;
-      }
-      &:popover-open::backdrop {
-        background: rgb(0 0 0 / 0.32);
-      }
-    }
-    @starting-style {
-      body > nav[popover]:popover-open {
-        opacity: 1;
-        translate: -100% 0;
-      }
-      body > nav[popover]:popover-open::backdrop {
-        background: rgb(0 0 0 / 0);
-      }
     }
   }
 
@@ -411,6 +364,9 @@
     font-weight: 400;
     line-height: 1.25;
     text-wrap: balance;
+    &:first-child {
+      margin-top: 0;
+    }
   }
   h1 {
     font-size: 2.25rem;
@@ -423,18 +379,17 @@
   }
   h4 {
     font-size: 1.125rem;
-    font-weight: 500;
   }
   h5 {
     font-size: 1rem;
-    font-weight: 500;
   }
   h6 {
     font-size: 0.875rem;
-    font-weight: 500;
   }
-  :is(h1, h2, h3, h4, h5, h6):first-child {
-    margin-top: 0;
+  h4,
+  h5,
+  h6 {
+    font-weight: 500;
   }
 
   p,
@@ -449,7 +404,7 @@
   form,
   fieldset,
   aside,
-  article {
+  main nav {
     margin: 0 0 1rem;
   }
 
@@ -482,7 +437,9 @@
     }
   }
 
-  :focus-visible {
+  :focus-visible,
+  :is([data-variant="chips"], [data-variant="segmented"])
+    label:has(:focus-visible) {
     outline: 3px solid var(--primary);
     outline-offset: 2px;
   }
@@ -544,7 +501,6 @@
   }
 
   blockquote {
-    margin-inline: 0;
     padding-inline-start: 1rem;
     border-inline-start: 4px solid var(--primary);
     font-size: 1.25rem;
@@ -626,10 +582,12 @@
   :where(
     button,
     a[data-variant],
-    input:is([type="submit"], [type="reset"], [type="button"]),
+    [type="submit"],
+    [type="reset"],
+    [type="button"],
     summary,
     nav ul a,
-    menu :is(a, button),
+    menu a,
     :is([data-variant="chips"], [data-variant="segmented"]) label
   ) {
     background-color: var(--bg, transparent);
@@ -654,11 +612,15 @@
     }
   }
 
-  /* Buttons: filled by default; data-variant = tonal | elevated | outlined | text | icon | fab | chip */
+  /* Buttons, and pill-shaped links: filled by default;
+     data-variant = tonal | elevated | outlined | text | icon | fab | chip */
 
   button,
   a[data-variant],
-  input:is([type="submit"], [type="reset"], [type="button"]) {
+  nav ul a,
+  [type="submit"],
+  [type="reset"],
+  [type="button"] {
     --bg: var(--primary);
     position: relative;
     display: inline-flex;
@@ -670,7 +632,7 @@
     border: 1px solid transparent;
     border-radius: 999px;
     color: var(--on-primary);
-    font: 500 0.875rem/1.25rem var(--font);
+    font: var(--label);
     letter-spacing: 0.1px;
     text-decoration: none;
     vertical-align: middle;
@@ -743,10 +705,7 @@
     }
   }
 
-  :is(
-      button,
-      input:is([type="submit"], [type="reset"], [type="button"])
-    ):disabled,
+  :is(button, [type="submit"], [type="reset"], [type="button"]):disabled,
   a[data-variant][aria-disabled="true"] {
     --bg: color-mix(in srgb, var(--on-surface) 12%, transparent);
     border-color: transparent;
@@ -763,6 +722,10 @@
     border-color: color-mix(in srgb, var(--on-surface) 12%, transparent);
   }
 
+  :disabled {
+    cursor: not-allowed;
+  }
+
   ::file-selector-button {
     min-height: 2.5rem;
     margin-inline-end: 1rem;
@@ -771,13 +734,13 @@
     border-radius: 999px;
     background: var(--secondary-container);
     color: var(--on-secondary-container);
-    font: 500 0.875rem var(--font);
+    font: var(--label);
     cursor: pointer;
   }
 
   /* A paragraph or footer of buttons is an action row */
   :is(p, footer, form[method="dialog"]):has(
-      > :is(button, a[data-variant], input[type="submit"])
+      > :is(button, a[data-variant], [type="submit"])
     ) {
     display: flex;
     flex-wrap: wrap;
@@ -936,10 +899,6 @@
     font-weight: 500;
   }
 
-  :disabled {
-    cursor: not-allowed;
-  }
-
   :where(
     input:not(
         [type="checkbox"],
@@ -1026,9 +985,10 @@
     accent-color: var(--primary);
   }
 
-  /* Checkbox, radio and switch (checkbox with role="switch") */
+  /* Checkbox, radio and switch (checkbox with role="switch"). Zero specificity,
+     so chips and segmented buttons can restyle them simply. */
 
-  input:is([type="checkbox"], [type="radio"]) {
+  :where(input:is([type="checkbox"], [type="radio"])) {
     appearance: none;
     flex: none;
     display: inline-grid;
@@ -1044,7 +1004,8 @@
       background-color var(--fast),
       border-color var(--fast),
       box-shadow var(--fast),
-      width var(--fast) var(--ease);
+      width var(--fast) var(--ease),
+      margin var(--fast) var(--ease);
     &::before {
       content: "";
       width: 0.75rem;
@@ -1059,8 +1020,7 @@
         height var(--slow) var(--ease);
     }
     &:hover {
-      box-shadow: 0 0 0 0.6875rem
-        color-mix(in srgb, var(--on-surface) 8%, transparent);
+      box-shadow: 0 0 0 0.6875rem var(--hover);
     }
     &:checked {
       border-color: var(--primary);
@@ -1070,11 +1030,11 @@
     }
   }
 
-  input[type="checkbox"]:checked {
+  :where(input[type="checkbox"]):checked {
     background: var(--primary);
   }
 
-  input[type="radio"] {
+  :where(input[type="radio"]) {
     width: 1.25rem;
     height: 1.25rem;
     margin: 0.125rem;
@@ -1088,7 +1048,7 @@
     }
   }
 
-  input:is([role="switch"], [switch]) {
+  :where(input:is([role="switch"], [switch])) {
     place-content: center start;
     width: 3.25rem;
     height: 2rem;
@@ -1108,8 +1068,7 @@
       box-shadow: none;
     }
     &:hover::before {
-      box-shadow: 0 0 0 0.5rem
-        color-mix(in srgb, var(--on-surface) 8%, transparent);
+      box-shadow: 0 0 0 0.5rem var(--hover);
     }
     &:checked::before {
       width: 1.5rem;
@@ -1146,48 +1105,39 @@
     border: 1px solid var(--outline);
     border-radius: 0.5rem;
     color: var(--on-surface-variant);
-    font: 500 0.875rem/1.25rem var(--font);
+    font: var(--label);
     cursor: pointer;
   }
 
-  :is([data-variant="chips"], [data-variant="segmented"]) label {
-    gap: 0;
-    &:has(:checked) {
+  :is([data-variant="chips"], [data-variant="segmented"]) {
+    label {
+      gap: 0;
+    }
+    label:has(:checked) {
       --bg: var(--secondary-container);
       padding-inline-start: 0.5rem;
       border-color: transparent;
       color: var(--on-secondary-container);
     }
-    &:has(:focus-visible) {
-      outline: 3px solid var(--primary);
-      outline-offset: 2px;
-    }
-  }
-
-  :is([data-variant="chips"], [data-variant="segmented"]) input {
-    &,
-    &:hover,
-    &:checked {
+    /* The checkbox becomes the tick, which slides in when selected */
+    input {
       width: 0;
       margin: 0;
       border: 0;
       background: none;
       box-shadow: none;
       outline: none;
-      transition:
-        width var(--fast) var(--ease),
-        margin var(--fast) var(--ease);
-    }
-    &:checked {
-      width: 1.125rem;
-      margin-inline-end: 0.5rem;
-    }
-    &::before {
-      width: 0.75rem;
-      height: 0.75rem;
-      border-radius: 0;
-      background: currentColor;
-      clip-path: var(--check);
+      &:checked {
+        width: 1.125rem;
+        margin-inline-end: 0.5rem;
+      }
+      &::before {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 0;
+        background: currentColor;
+        clip-path: var(--check);
+      }
     }
   }
 
@@ -1223,15 +1173,18 @@
 
   /* Progress and meter; progress[data-variant="circular"] is a spinner */
 
-  progress {
+  progress,
+  meter {
     appearance: none;
     width: 100%;
-    height: 0.25rem;
     overflow: hidden;
     border: 0;
     border-radius: 999px;
     background: var(--secondary-container);
     vertical-align: middle;
+  }
+  progress {
+    height: 0.25rem;
   }
   progress::-webkit-progress-bar {
     background: none;
@@ -1278,12 +1231,7 @@
   }
 
   meter {
-    appearance: none;
-    width: 100%;
     height: 0.5rem;
-    overflow: hidden;
-    border-radius: 999px;
-    background: var(--secondary-container);
   }
   meter::-webkit-meter-bar {
     height: 100%;
@@ -1310,7 +1258,7 @@
     background: var(--error);
   }
 
-  /* Navigation: nav ul = row of links (app bar, side nav, pagination); nav ol = breadcrumbs */
+  /* Navigation: nav ul = row of pill links (side nav, pagination); nav ol = breadcrumbs */
 
   nav :is(ul, ol) {
     display: flex;
@@ -1322,22 +1270,12 @@
     list-style: none;
   }
 
-  main nav {
-    margin-bottom: 1rem;
-  }
-
   nav ul a {
     --bg: transparent;
     display: flex;
-    align-items: center;
-    justify-content: center;
     min-width: 2.5rem;
-    min-height: 2.5rem;
-    padding: 0 1rem;
-    border-radius: 999px;
+    padding-inline: 1rem;
     color: var(--on-surface-variant);
-    font: 500 0.875rem/1.25rem var(--font);
-    text-decoration: none;
     &[aria-current] {
       --bg: var(--secondary-container);
       color: var(--on-secondary-container);
@@ -1356,7 +1294,9 @@
     }
   }
 
-  /* Expansion panels: details + summary; same name = only one open */
+  /* Expansion panels: details + summary; same name = only one open.
+     Content fades and slides; the panel stays visible while it closes, and
+     grows and shrinks where auto heights can be interpolated. */
 
   details {
     border-bottom: 1px solid var(--outline-variant);
@@ -1372,17 +1312,25 @@
       opacity: 1;
       translate: 0;
     }
-  }
-
-  @starting-style {
-    details[open] > :not(summary) {
-      opacity: 0;
-      translate: 0 -0.5rem;
+    &:not(details + details) {
+      border-top: 1px solid var(--outline-variant);
+    }
+    &::details-content {
+      transition: content-visibility var(--slow) allow-discrete;
     }
   }
 
-  details:not(details + details) {
-    border-top: 1px solid var(--outline-variant);
+  @supports (interpolate-size: allow-keywords) {
+    details::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition:
+        block-size var(--slow) var(--ease),
+        content-visibility var(--slow) allow-discrete;
+    }
+    details[open]::details-content {
+      block-size: auto;
+    }
   }
 
   summary {
@@ -1411,25 +1359,6 @@
     }
     [open] > &::after {
       rotate: 225deg;
-    }
-  }
-
-  /* Content fades and slides everywhere (above); the panel stays visible while
-     it closes, and grows and shrinks where auto heights can be interpolated. */
-  details::details-content {
-    transition: content-visibility var(--slow) allow-discrete;
-  }
-
-  @supports (interpolate-size: allow-keywords) {
-    details::details-content {
-      block-size: 0;
-      overflow: hidden;
-      transition:
-        block-size var(--slow) var(--ease),
-        content-visibility var(--slow) allow-discrete;
-    }
-    details[open]::details-content {
-      block-size: auto;
     }
   }
 
@@ -1471,33 +1400,54 @@
     }
   }
 
-  /* Popovers, menus and snackbars */
+  /* Overlays: popovers (menus, snackbars, the drawer) and dialogs fade in while
+     sliding from --from; modal ones dim the page behind them. */
 
-  [popover] {
+  :is([popover], dialog) {
+    --from: 0 -0.5rem;
     border: 0;
     opacity: 0;
-    translate: 0 -0.5rem;
+    translate: var(--from);
     transition:
-      opacity var(--fast),
-      translate var(--fast) var(--ease),
-      overlay var(--fast) allow-discrete,
-      display var(--fast) allow-discrete;
+      opacity var(--slow) var(--ease),
+      translate var(--slow) var(--ease),
+      overlay var(--slow) allow-discrete,
+      display var(--slow) allow-discrete;
   }
 
-  :popover-open {
+  :is(:popover-open, dialog[open]) {
     opacity: 1;
     translate: 0;
   }
 
-  [popover]:not(:popover-open) [popovertargetaction="hide"] {
-    display: none;
+  ::backdrop {
+    background: rgb(0 0 0 / 0);
+    transition:
+      background-color var(--slow),
+      overlay var(--slow) allow-discrete,
+      display var(--slow) allow-discrete;
+  }
+
+  :is(dialog[open], body > nav:popover-open)::backdrop {
+    background: rgb(0 0 0 / 0.32);
   }
 
   @starting-style {
-    :popover-open {
+    :is(:popover-open, dialog[open]) {
+      opacity: 0;
+      translate: var(--from);
+    }
+    ::backdrop {
+      background: rgb(0 0 0 / 0);
+    }
+    details[open] > :not(summary) {
       opacity: 0;
       translate: 0 -0.5rem;
     }
+  }
+
+  [popover]:not(:popover-open) [popovertargetaction="hide"] {
+    display: none;
   }
 
   menu {
@@ -1537,6 +1487,7 @@
   }
 
   output[popover] {
+    --from: 0 1rem;
     inset: auto 1rem 1rem;
     max-width: 42rem;
     margin: 0 auto;
@@ -1546,7 +1497,6 @@
     color: var(--inverse-on-surface);
     box-shadow: var(--elev-3);
     font-size: 0.875rem;
-    translate: 0 1rem;
     button {
       --bg: transparent;
       color: var(--inverse-primary);
@@ -1560,7 +1510,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    translate: 0;
   }
 
   /* Dialogs; data-variant="sheet" docks to the bottom */
@@ -1568,19 +1517,10 @@
   dialog {
     max-width: min(35rem, 100vw - 3rem);
     padding: 1.5rem;
-    border: 0;
     border-radius: 1.75rem;
     background: var(--surface-high);
     color: var(--on-surface-variant);
     box-shadow: var(--elev-3);
-    opacity: 0;
-    scale: 0.95;
-    transition:
-      opacity var(--slow) var(--ease),
-      scale var(--slow) var(--ease),
-      translate var(--slow) var(--ease),
-      overlay var(--slow) allow-discrete,
-      display var(--slow) allow-discrete;
     h2 {
       margin-bottom: 1rem;
       color: var(--on-surface);
@@ -1594,34 +1534,13 @@
     }
   }
 
-  dialog[open] {
-    opacity: 1;
-    scale: 1;
-  }
-
-  dialog::backdrop {
-    background: rgb(0 0 0 / 0);
-    transition:
-      background-color var(--slow),
-      overlay var(--slow) allow-discrete,
-      display var(--slow) allow-discrete;
-  }
-
-  dialog[open]::backdrop {
-    background: rgb(0 0 0 / 0.32);
-  }
-
   dialog[data-variant="sheet"] {
+    --from: 0 100%;
     width: 100%;
     max-width: 40rem;
     margin: auto auto 0;
     border-radius: 1.75rem 1.75rem 0 0;
     background: var(--surface-low);
-    scale: 1;
-    translate: 0 100%;
-    &[open] {
-      translate: 0;
-    }
     &::before {
       content: "";
       display: block;
@@ -1630,23 +1549,6 @@
       margin: -0.5rem auto 1.5rem;
       border-radius: 999px;
       background: var(--outline);
-    }
-  }
-
-  @starting-style {
-    dialog[open] {
-      opacity: 0;
-      scale: 0.95;
-    }
-    dialog[data-variant="sheet"][open] {
-      scale: 1;
-      translate: 0 100%;
-    }
-    dialog[open]::backdrop {
-      background: rgb(0 0 0 / 0);
-    }
-    output:popover-open {
-      translate: 0 1rem;
     }
   }
 
@@ -1681,7 +1583,7 @@
   tbody tr {
     transition: background-color var(--fast);
     &:hover {
-      background: color-mix(in srgb, var(--on-surface) 8%, transparent);
+      background: var(--hover);
     }
   }
 

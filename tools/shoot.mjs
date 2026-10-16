@@ -3,6 +3,7 @@
 //   --browsers chromium,firefox,webkit   --schemes light,dark
 //   --only tabs,dialog   (just these sections/states)   --video (record the animation tour)
 //   --mobile   (sections, states and video at phone width)
+//   --reduced-motion   (no animations, so runs are repeatable for pixel diffs)
 import { chromium, firefox, webkit } from "playwright";
 import { mkdir, rename } from "node:fs/promises";
 
@@ -22,6 +23,9 @@ const url = "file:///work/showcase.html";
 const desktop = { width: 1280, height: 800 };
 const mobile = { width: 390, height: 844 };
 const viewport = args.includes("--mobile") ? mobile : desktop;
+const reducedMotion = args.includes("--reduced-motion")
+  ? "reduce"
+  : "no-preference";
 const pause = (page, ms = 600) => page.waitForTimeout(ms);
 
 // Wait for every finite animation and transition to finish. Headless WebKit can
@@ -99,7 +103,7 @@ const states = {
     await p.click(
       `body > header label:has([value="${dark ? "light" : "dark"}"])`,
     );
-    await p.mouse.wheel(0, 600);
+    await p.evaluate(() => scrollTo({ top: 600, behavior: "instant" }));
   },
   // The ☰ drawer, on narrow screens; the side column on wide ones.
   async drawer(p) {
@@ -198,7 +202,11 @@ for (const name of browsers) {
   for (const colorScheme of schemes) {
     const base = `${name}-${colorScheme}`;
     const tag = viewport === mobile ? `${base}-mobile` : base;
-    const context = await browser.newContext({ colorScheme, viewport });
+    const context = await browser.newContext({
+      colorScheme,
+      viewport,
+      reducedMotion,
+    });
     const page = await context.newPage();
     page.on(
       "console",
