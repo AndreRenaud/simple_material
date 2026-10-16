@@ -437,6 +437,19 @@
     }
   }
 
+  /* A linked heading keeps the heading's look, underlined only on hover */
+  :is(h1, h2, h3, h4, h5, h6) > a:not(:hover) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* An image in a linked heading is an icon, sized to the text */
+  :is(h1, h2, h3, h4, h5, h6) > a > img {
+    width: auto;
+    height: 0.75em;
+    vertical-align: -0.1em;
+  }
+
   :focus-visible,
   :is([data-variant="chips"], [data-variant="segmented"])
     label:has(:focus-visible) {
