@@ -6,10 +6,6 @@ See every component on the [showcase page](https://andrerenaud.github.io/simple_
 
 <img src="docs/showcase.gif" alt="A tour of the showcase: the navigation drawer, buttons, the dark theme, switches, chips, tabs, expansion panels, a dialog, the FAB menu and a snackbar" width="800">
 
-<img src="docs/buttons.png" alt="Filled, tonal, elevated, outlined and text buttons" width="486">
-
-<img src="docs/card.png" alt="An elevated card with a photo, title, text and two actions" width="336">
-
 ## Goals
 
 - Pure HTML and CSS, framework agnostic, no JavaScript
