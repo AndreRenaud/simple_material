@@ -21,7 +21,7 @@
       <a href="https://github.com/AndreRenaud/simple_material"
         >Simple Material</a
       >
-      <fieldset data-variant="segmented" aria-label="Theme">
+      <fieldset data-variant="segmented" aria-label="Colour scheme">
         <label
           ><input type="radio" name="color-scheme" value="auto" checked />
           Auto</label
@@ -44,12 +44,24 @@
       >
         ✕
       </button>
+      <label
+        >Colour theme
+        <select name="theme">
+          <option value="violet">Violet</option>
+          <option value="rose">Rose</option>
+          <option value="orange">Orange</option>
+          <option value="olive">Olive</option>
+          <option value="teal">Teal</option>
+          <option value="navy">Navy</option>
+        </select>
+      </label>
       <ul>
         <li><a href="#main" aria-current="page">Showcase</a></li>
         <li><a href="simple_material.css">Stylesheet</a></li>
       </ul>
       <hr />
       <ul>
+        <li><a href="#themes">Colour themes</a></li>
         <li><a href="#typography">Typography</a></li>
         <li><a href="#lists">Lists</a></li>
         <li><a href="#buttons">Buttons</a></li>
@@ -88,16 +100,45 @@
           no JavaScript: link one stylesheet and write ordinary markup.
         </p>
         <p>
-          The theme switch in the top bar is a segmented button made of three
-          radios named <code>color-scheme</code>. <strong>Auto</strong> follows
-          your system setting. On a narrow screen the navigation folds into the
-          ☰ menu.
+          The menu at the top of the navigation picks a
+          <a href="#themes">colour theme</a>. In the top bar, a segmented button
+          made of three radios named <code>color-scheme</code> switches between
+          light and dark; <strong>Auto</strong> follows your system setting. On
+          a narrow screen the navigation folds into the ☰ menu.
         </p>
         <p>
           <a href="#buttons" data-variant="filled">Browse components</a>
           <a href="simple_material.css" data-variant="outlined">View the CSS</a>
         </p>
       </header>
+
+      <section id="themes">
+        <h2>Colour themes</h2>
+        <p>
+          Every colour is derived from a hue, so a theme is a few settings that
+          work in light and dark mode. Violet is the default, and
+          <code>rose</code>, <code>orange</code>, <code>olive</code>,
+          <code>teal</code> and <code>navy</code> start from popular
+          <a href="https://coolors.co/palettes/trending">Coolors</a> palettes.
+          Pick one with <code>data-theme</code> on the <code>html</code>
+          element:
+        </p>
+        <pre><code>&lt;html lang="en" data-theme="teal"&gt;</code></pre>
+        <p>
+          A <code>select</code> named <code>theme</code>, like the one at the
+          top of the navigation, switches between them without JavaScript.
+        </p>
+        <p>
+          To make your own, set the four values a theme sets on
+          <code>:root</code>:
+        </p>
+        <pre><code>:root {
+  --hue: 150; /* primary hue, in degrees */
+  --tertiary-hue: 30; /* accent hue, used by mark */
+  --chroma: 0.8; /* how colourful the accents are */
+  --tint: 1.5; /* how strongly the hue tints surfaces */
+}</code></pre>
+      </section>
 
       <section id="typography">
         <h2>Typography</h2>
@@ -538,7 +579,7 @@
         <p>
           Checkboxes, radio buttons and switches are native inputs inside their
           label. A switch is a checkbox with <code>role="switch"</code>. A range
-          uses the theme colour.
+          is a slider whose bar handle narrows while dragged.
         </p>
         <fieldset>
           <legend>Notifications</legend>
@@ -769,8 +810,10 @@
         <details name="faq">
           <summary>Can I change the colours?</summary>
           <p>
-            Set <code>--hue</code> on <code>:root</code>. Every colour role is
-            derived from it, in both light and dark mode.
+            Pick a theme with <code>data-theme</code> on the
+            <code>html</code> element, or set <code>--hue</code> on
+            <code>:root</code>. Every colour role is derived from it, in both
+            light and dark mode.
           </p>
         </details>
         <details name="faq">

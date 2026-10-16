@@ -1,6 +1,7 @@
 /*
  * Simple Material: classless Material 3 styles for semantic HTML.
- * Theme by setting --hue on :root. Variants use data-variant="…".
+ * Theme with data-theme on the html element, or by setting --hue on :root.
+ * Variants use data-variant="…".
  * Everything sits in one cascade layer, so any unlayered rule overrides it.
  */
 
@@ -17,91 +18,154 @@
 }
 
 @layer simple-material {
+  /* Themes: every colour role below is derived from four settings, in both
+     light and dark mode. --hue is the primary hue, --tertiary-hue the
+     accent's, --chroma scales how colourful the accents are and --tint how
+     strongly the hue tints surfaces, text and outlines. Violet is the default;
+     pick another with data-theme on the html element. A select named "theme"
+     switches between them. Each theme sets all four, so none leak between
+     them. The others start from palettes at coolors.co/palette/… */
+
+  :root,
+  :root:has(select[name="theme"] [value="violet"]:checked) {
+    --hue: 285;
+    --tertiary-hue: calc(var(--hue) + 60);
+    --chroma: 1;
+    --tint: 1;
+  }
+
+  /* Rose with a blue-violet accent: ffbe0b-fb5607-ff006e-8338ec-3a86ff */
+  :root[data-theme="rose"],
+  :root:has(select[name="theme"] [value="rose"]:checked) {
+    --hue: 8;
+    --tertiary-hue: 296;
+    --chroma: 1.1;
+    --tint: 1;
+  }
+
+  /* Orange with a deep blue accent: 003049-d62828-f77f00-fcbf49-eae2b7 */
+  :root[data-theme="orange"],
+  :root:has(select[name="theme"] [value="orange"]:checked) {
+    --hue: 54;
+    --tertiary-hue: 238;
+    --chroma: 0.8;
+    --tint: 1;
+  }
+
+  /* Moss green and copper, warm surfaces: 606c38-283618-fefae0-dda15e-bc6c25 */
+  :root[data-theme="olive"],
+  :root:has(select[name="theme"] [value="olive"]:checked) {
+    --hue: 120;
+    --tertiary-hue: 57;
+    --chroma: 0.65;
+    --tint: 2.5;
+  }
+
+  /* Persian green, burnt sienna accent: 264653-2a9d8f-e9c46a-f4a261-e76f51 */
+  :root[data-theme="teal"],
+  :root:has(select[name="theme"] [value="teal"]:checked) {
+    --hue: 183;
+    --tertiary-hue: 35;
+    --chroma: 0.55;
+    --tint: 1;
+  }
+
+  /* Blue, gold accent, navy surfaces: 000814-001d3d-003566-ffc300-ffd60a */
+  :root[data-theme="navy"],
+  :root:has(select[name="theme"] [value="navy"]:checked) {
+    --hue: 253;
+    --tertiary-hue: 87;
+    --chroma: 0.95;
+    --tint: 2;
+  }
+
   /* Tokens */
 
   :root {
     color-scheme: light dark;
     interpolate-size: allow-keywords;
-    --hue: 285;
     --primary: light-dark(
-      oklch(47% 0.15 var(--hue)),
-      oklch(82% 0.1 var(--hue))
+      oklch(47% calc(0.15 * var(--chroma)) var(--hue)),
+      oklch(82% calc(0.1 * var(--chroma)) var(--hue))
     );
-    --on-primary: light-dark(#fff, oklch(30% 0.1 var(--hue)));
+    --on-primary: light-dark(
+      #fff,
+      oklch(30% calc(0.1 * var(--chroma)) var(--hue))
+    );
     --inverse-primary: light-dark(
-      oklch(82% 0.1 var(--hue)),
-      oklch(47% 0.15 var(--hue))
+      oklch(82% calc(0.1 * var(--chroma)) var(--hue)),
+      oklch(47% calc(0.15 * var(--chroma)) var(--hue))
     );
     --primary-container: light-dark(
-      oklch(93% 0.05 var(--hue)),
-      oklch(37% 0.11 var(--hue))
+      oklch(93% calc(0.05 * var(--chroma)) var(--hue)),
+      oklch(37% calc(0.11 * var(--chroma)) var(--hue))
     );
     --on-primary-container: light-dark(
-      oklch(30% 0.1 var(--hue)),
-      oklch(93% 0.05 var(--hue))
+      oklch(30% calc(0.1 * var(--chroma)) var(--hue)),
+      oklch(93% calc(0.05 * var(--chroma)) var(--hue))
     );
     --secondary-container: light-dark(
-      oklch(92% 0.03 var(--hue)),
-      oklch(36% 0.03 var(--hue))
+      oklch(92% calc(0.03 * var(--chroma)) var(--hue)),
+      oklch(36% calc(0.03 * var(--chroma)) var(--hue))
     );
     --on-secondary-container: light-dark(
-      oklch(28% 0.03 var(--hue)),
-      oklch(92% 0.03 var(--hue))
+      oklch(28% calc(0.03 * var(--chroma)) var(--hue)),
+      oklch(92% calc(0.03 * var(--chroma)) var(--hue))
     );
     --tertiary-container: light-dark(
-      oklch(93% 0.05 calc(var(--hue) + 60)),
-      oklch(38% 0.07 calc(var(--hue) + 60))
+      oklch(93% calc(0.05 * var(--chroma)) var(--tertiary-hue)),
+      oklch(38% calc(0.07 * var(--chroma)) var(--tertiary-hue))
     );
     --on-tertiary-container: light-dark(
-      oklch(30% 0.07 calc(var(--hue) + 60)),
-      oklch(93% 0.05 calc(var(--hue) + 60))
+      oklch(30% calc(0.07 * var(--chroma)) var(--tertiary-hue)),
+      oklch(93% calc(0.05 * var(--chroma)) var(--tertiary-hue))
     );
     --warning: light-dark(oklch(70% 0.15 75), oklch(82% 0.13 80));
     --error: light-dark(oklch(51% 0.19 28), oklch(80% 0.11 28));
     --on-error: light-dark(#fff, oklch(30% 0.12 28));
     --surface: light-dark(
-      oklch(98.5% 0.005 var(--hue)),
-      oklch(17% 0.01 var(--hue))
+      oklch(98.5% calc(0.005 * var(--tint)) var(--hue)),
+      oklch(17% calc(0.01 * var(--tint)) var(--hue))
     );
     --surface-low: light-dark(
-      oklch(96.5% 0.008 var(--hue)),
-      oklch(20% 0.012 var(--hue))
+      oklch(96.5% calc(0.008 * var(--tint)) var(--hue)),
+      oklch(20% calc(0.012 * var(--tint)) var(--hue))
     );
     --surface-mid: light-dark(
-      oklch(95% 0.01 var(--hue)),
-      oklch(22% 0.012 var(--hue))
+      oklch(95% calc(0.01 * var(--tint)) var(--hue)),
+      oklch(22% calc(0.012 * var(--tint)) var(--hue))
     );
     --surface-high: light-dark(
-      oklch(93% 0.01 var(--hue)),
-      oklch(25% 0.012 var(--hue))
+      oklch(93% calc(0.01 * var(--tint)) var(--hue)),
+      oklch(25% calc(0.012 * var(--tint)) var(--hue))
     );
     --surface-highest: light-dark(
-      oklch(91% 0.012 var(--hue)),
-      oklch(28% 0.012 var(--hue))
+      oklch(91% calc(0.012 * var(--tint)) var(--hue)),
+      oklch(28% calc(0.012 * var(--tint)) var(--hue))
     );
     --on-surface: light-dark(
-      oklch(22% 0.01 var(--hue)),
-      oklch(91% 0.01 var(--hue))
+      oklch(22% calc(0.01 * var(--tint)) var(--hue)),
+      oklch(91% calc(0.01 * var(--tint)) var(--hue))
     );
     --on-surface-variant: light-dark(
-      oklch(44% 0.02 var(--hue)),
-      oklch(80% 0.02 var(--hue))
+      oklch(44% calc(0.02 * var(--tint)) var(--hue)),
+      oklch(80% calc(0.02 * var(--tint)) var(--hue))
     );
     --outline: light-dark(
-      oklch(58% 0.02 var(--hue)),
-      oklch(63% 0.02 var(--hue))
+      oklch(58% calc(0.02 * var(--tint)) var(--hue)),
+      oklch(63% calc(0.02 * var(--tint)) var(--hue))
     );
     --outline-variant: light-dark(
-      oklch(83% 0.015 var(--hue)),
-      oklch(40% 0.015 var(--hue))
+      oklch(83% calc(0.015 * var(--tint)) var(--hue)),
+      oklch(40% calc(0.015 * var(--tint)) var(--hue))
     );
     --inverse-surface: light-dark(
-      oklch(31% 0.01 var(--hue)),
-      oklch(91% 0.01 var(--hue))
+      oklch(31% calc(0.01 * var(--tint)) var(--hue)),
+      oklch(91% calc(0.01 * var(--tint)) var(--hue))
     );
     --inverse-on-surface: light-dark(
-      oklch(95% 0.01 var(--hue)),
-      oklch(31% 0.01 var(--hue))
+      oklch(95% calc(0.01 * var(--tint)) var(--hue)),
+      oklch(31% calc(0.01 * var(--tint)) var(--hue))
     );
     --hover: color-mix(in srgb, var(--on-surface) 8%, transparent);
     --elev-1: 0 1px 2px rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);
@@ -240,6 +304,20 @@
     }
     hr {
       margin: 0.5rem 1rem;
+    }
+    /* A select, such as a theme picker, is an outlined pill like the links */
+    select {
+      --accent: transparent;
+      min-height: 3rem;
+      padding-inline-start: 1.5rem;
+      border: 1px solid var(--outline);
+      border-radius: 999px;
+      background-color: transparent;
+      color: var(--on-surface-variant);
+      font: var(--label);
+      &:focus-visible {
+        outline: 3px solid var(--primary);
+      }
     }
   }
 
@@ -994,9 +1072,81 @@
     cursor: pointer;
   }
 
+  /* Range: an M3 slider. The handle paints both track segments as an outset
+     border-image, leaving a gap either side of it (1px over M3's, so a segment
+     snapped to device pixels can't peek past the end at min or max). The mask
+     rounds the track's corners and makes a stacking context, so the handle can
+     sit under the track element that draws the stop dot. Firefox can't layer
+     them: no dot there. */
+
   input[type="range"] {
+    --active: var(--primary);
+    --inactive: var(--secondary-container);
+    --handle: 0.25rem;
+    --corner: radial-gradient(closest-side, #000 96%, #0000);
+    appearance: none;
     width: 100%;
-    accent-color: var(--primary);
+    height: 3.5rem;
+    margin: 0;
+    padding: 0 0.375rem;
+    background: none;
+    cursor: pointer;
+    mask:
+      var(--corner) 0 calc(50% - 0.25rem) / 1rem 1rem no-repeat,
+      var(--corner) 0 calc(50% + 0.25rem) / 1rem 1rem no-repeat,
+      var(--corner) 100% calc(50% - 0.25rem) / 1rem 1rem no-repeat,
+      var(--corner) 100% calc(50% + 0.25rem) / 1rem 1rem no-repeat,
+      linear-gradient(#000 0 0) center / calc(100% - 0.625rem) 100% no-repeat,
+      linear-gradient(
+        #000 calc(50% - 0.75rem - 1px),
+        #0000 0 calc(50% - 0.25rem),
+        #000 0 calc(50% + 0.25rem),
+        #0000 0 calc(50% + 0.75rem + 1px),
+        #000 0
+      );
+    &:active {
+      --handle: 0.125rem;
+    }
+    &:focus-visible {
+      --ring: 3px solid var(--primary);
+      outline: none;
+    }
+    &:disabled {
+      --active: color-mix(in srgb, var(--on-surface) 38%, transparent);
+      --inactive: color-mix(in srgb, var(--on-surface) 12%, transparent);
+    }
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 2.75rem;
+    background: radial-gradient(closest-side, var(--active) 90%, #0000) right /
+      0.25rem 0.25rem no-repeat;
+  }
+  /* One handle rule per engine: a selector list would drop both */
+  input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    position: relative;
+    z-index: -1;
+    width: var(--handle);
+    height: 2.75rem;
+    border-radius: 1rem;
+    outline: var(--ring, none);
+    outline-offset: 2px;
+    background: var(--active);
+    border-image: linear-gradient(90deg, var(--active) 50%, var(--inactive) 0) 0
+      1 / calc(50% - 0.75rem) 200vw / 0 calc(200vw + 0.375rem + 1px);
+    transition: width var(--fast) var(--ease);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: var(--handle);
+    height: 2.75rem;
+    border: 0;
+    border-radius: 1rem;
+    outline: var(--ring, none);
+    outline-offset: 2px;
+    background: var(--active);
+    border-image: linear-gradient(90deg, var(--active) 50%, var(--inactive) 0) 0
+      1 / calc(50% - 0.75rem) 200vw / 0 calc(200vw + 0.375rem + 1px);
+    transition: width var(--fast) var(--ease);
   }
 
   /* Checkbox, radio and switch (checkbox with role="switch"). Zero specificity,
@@ -1177,7 +1327,8 @@
     }
   }
 
-  /* Radios named color-scheme switch the theme; "auto" follows the system */
+  /* Radios named color-scheme switch between light and dark; "auto" follows
+     the system */
   :root:has(input[name="color-scheme"][value="light"]:checked) {
     color-scheme: light;
   }
@@ -1706,6 +1857,9 @@
     progress,
     meter {
       forced-color-adjust: none;
+    }
+    input[type="range"] {
+      --inactive: GrayText;
     }
     article,
     dialog,

@@ -99,10 +99,22 @@ async function scrollTo(selector) {
   await pause(300);
 }
 
+// Pick from the drawer's theme select. Its option list is drawn by the browser
+// outside the page, so it never shows in the frames; skip opening it.
+async function pickTheme(theme) {
+  await hover('body > nav select[name="theme"]');
+  await pause(200);
+  await page.selectOption('body > nav select[name="theme"]', theme);
+  await pause(700);
+}
+
 async function tour() {
   await pause(1200);
   await click("body > header > button");
   await pause(800);
+  await pickTheme("rose");
+  await pickTheme("olive");
+  await pickTheme("teal");
   await click('body > nav a[href="#buttons"]');
   await pause(700);
   await moveTo(width - 50, height / 2);
@@ -150,6 +162,11 @@ async function tour() {
   await pause(500);
   await click('body > header label:has([value="auto"])');
   await pause(600);
+  await click("body > header > button");
+  await pause(800);
+  await pickTheme("violet");
+  await click('body > nav [popovertargetaction="hide"]');
+  await pause(500);
   await scrollTo();
   await pause(1200);
 }

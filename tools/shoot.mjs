@@ -119,6 +119,17 @@ const states = {
   },
 };
 
+// Each colour theme, picked with the nav's select, over the buttons. Forced,
+// as on narrow screens the select is inside the closed drawer.
+for (const theme of ["rose", "orange", "olive", "teal", "navy"]) {
+  states[`theme-${theme}`] = async (p) => {
+    await p.selectOption('body > nav select[name="theme"]', theme, {
+      force: true,
+    });
+    await p.locator("#buttons").scrollIntoViewIfNeeded();
+  };
+}
+
 // A walk through every animated widget, for --video.
 async function tour(p) {
   const show = async (selector) => {
