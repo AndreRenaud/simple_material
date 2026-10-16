@@ -4,6 +4,8 @@ Classless Material Design styles for semantic HTML, in a single CSS file.
 
 See every component on the [showcase page](https://andrerenaud.github.io/simple_material/showcase.html).
 
+<img src="docs/showcase.gif" alt="A tour of the showcase: the navigation drawer, buttons, the dark theme, switches, chips, tabs, expansion panels, a dialog, the FAB menu and a snackbar" width="800">
+
 <img src="docs/buttons.png" alt="Filled, tonal, elevated, outlined and text buttons" width="486">
 
 <img src="docs/card.png" alt="An elevated card with a photo, title, text and two actions" width="336">
@@ -40,3 +42,4 @@ element, pick one with `data-variant`, and arrange children with
 - `make format` formats the HTML, CSS and scripts with Prettier.
 - `make shoot` screenshots the showcase in headless Chromium, Firefox and
   WebKit using Podman. Output goes to `screenshots/`.
+- `make gif` records an 800×600 tour of the showcase to `docs/showcase.gif`.

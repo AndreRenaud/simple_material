@@ -595,7 +595,8 @@
       background-color var(--fast),
       border-color var(--fast),
       box-shadow var(--fast),
-      color var(--fast);
+      color var(--fast),
+      border-radius var(--slow) var(--ease);
     &:hover:not(:disabled) {
       background-color: color-mix(
         in srgb,
@@ -1477,12 +1478,82 @@
     }
   }
 
+  /* FAB menu: a menu popover with data-variant="fab" placed straight after its
+     FAB. The actions stack above it, and the FAB becomes a close button. */
+  menu[data-variant="fab"] {
+    --from: 0 1rem;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    li + li {
+      margin-top: 0.5rem;
+    }
+    :is(a, button) {
+      --bg: var(--primary-container);
+      gap: 0.75rem;
+      min-height: 3.5rem;
+      padding: 0 1.5rem 0 1.25rem;
+      border-radius: 999px;
+      color: var(--on-primary-container);
+      font: 500 1rem/1.5rem var(--font);
+      box-shadow: var(--elev-2);
+    }
+  }
+
+  /* While its menu is open the FAB shows a ✕ that turns into place. Only the ✕
+     rotates: rotating the button would move the menu's anchor in Chromium. */
+  :is(button, a)[data-variant="fab"]:has(+ menu[popover])::before {
+    content: "✕" / "";
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0;
+    rotate: -90deg;
+    transition:
+      opacity var(--slow) var(--ease),
+      rotate var(--slow) var(--ease);
+  }
+
+  :is(button, a)[data-variant="fab"]:has(+ menu:popover-open) {
+    --bg: var(--primary);
+    color: var(--on-primary);
+    font-size: 0;
+    box-shadow: none;
+    &[aria-label] {
+      border-radius: 50%;
+    }
+    &::before {
+      opacity: 1;
+      rotate: 0deg;
+    }
+  }
+
+  /* A FAB placed directly in body floats in the bottom corner. Snackbars then
+     appear above it rather than covering it. */
+  body > :is(button, a)[data-variant="fab"] {
+    position: fixed;
+    inset-block-end: 1.5rem;
+    inset-inline-end: 1.5rem;
+    z-index: 2;
+  }
+
+  body:has(> :is(button, a)[data-variant="fab"]) output[popover] {
+    inset-block-end: 6rem;
+  }
+
   @supports (position-area: block-end) {
     menu[popover] {
       inset: auto;
       margin: 0.25rem 0;
       position-area: block-end span-inline-end;
       position-try-fallbacks: flip-block;
+    }
+    menu[data-variant="fab"] {
+      margin: 0.75rem 0;
+      position-area: block-start span-inline-end;
+      position-try-fallbacks: flip-inline, flip-block;
     }
   }
 

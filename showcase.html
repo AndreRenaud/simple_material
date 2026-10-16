@@ -840,6 +840,17 @@
 &lt;menu popover id="sort"&gt;
   &lt;li&gt;&lt;button&gt;Newest first&lt;/button&gt;&lt;/li&gt;
 &lt;/menu&gt;</code></pre>
+        <p>
+          A FAB menu is a FAB followed straight away by a
+          <code>menu popover data-variant="fab"</code>. Its actions stack above
+          the button, and the ＋ turns into a close button while the menu is
+          open. A FAB placed directly in <code>body</code> floats in the bottom
+          corner, like the ＋ on this page.
+        </p>
+        <pre><code>&lt;button data-variant="fab" popovertarget="create" aria-label="Create"&gt;＋&lt;/button&gt;
+&lt;menu popover id="create" data-variant="fab"&gt;
+  &lt;li&gt;&lt;button&gt;✎ Document&lt;/button&gt;&lt;/li&gt;
+&lt;/menu&gt;</code></pre>
       </section>
 
       <section id="snackbar">
@@ -1008,6 +1019,15 @@
         </figure>
       </section>
     </main>
+
+    <button data-variant="fab" popovertarget="create" aria-label="Create">
+      ＋
+    </button>
+    <menu popover id="create" data-variant="fab">
+      <li><button>✎ Document</button></li>
+      <li><button>▦ Spreadsheet</button></li>
+      <li><button>⇧ Upload</button></li>
+    </menu>
 
     <footer>
       <p>Simple Material: classless Material 3 for semantic HTML.</p>

@@ -1,5 +1,5 @@
 // Screenshots and videos of showcase.html in each browser engine.
-// Runs inside the container built by tools/shoot.sh; the repo is mounted at /work.
+// Runs inside the container built by tools/run.sh; the repo is mounted at /work.
 //   --browsers chromium,firefox,webkit   --schemes light,dark
 //   --only tabs,dialog   (just these sections/states)   --video (record the animation tour)
 //   --mobile   (sections, states and video at phone width)
@@ -94,6 +94,9 @@ const states = {
   async snackbar(p) {
     await p.click('[popovertarget="toast"]');
   },
+  async "fab-menu"(p) {
+    await p.click('[popovertarget="create"]');
+  },
   // Pick the theme opposite to the browser's with the app bar's segmented
   // button, then scroll a little so the app bar shows its scrolled colour.
   async "theme-switch"(p) {
@@ -175,6 +178,10 @@ async function tour(p) {
   await pause(p, 1000);
   await p.keyboard.press("Escape");
   await pause(p, 500);
+  await p.click('[popovertarget="create"]');
+  await pause(p, 1200);
+  await p.click('[popovertarget="create"]');
+  await pause(p, 700);
   await show("#snackbar");
   await p.click('[popovertarget="toast"]');
   await pause(p, 1500);
