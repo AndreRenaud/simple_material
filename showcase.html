@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Simple Material: classless Material 3 styles for semantic HTML, with every component on one page."
+    />
+    <title>Simple Material</title>
+    <link rel="stylesheet" href="simple_material.css" />
+  </head>
+  <body>
+    <a href="#main" data-variant="filled">Skip to content</a>
+
+    <header>
+      <button popovertarget="menu" data-variant="icon" aria-label="Open menu">
+        ☰
+      </button>
+      <a href="./">Simple Material</a>
+      <fieldset data-variant="segmented" aria-label="Theme">
+        <label
+          ><input type="radio" name="color-scheme" value="auto" checked />
+          Auto</label
+        >
+        <label
+          ><input type="radio" name="color-scheme" value="light" /> Light</label
+        >
+        <label
+          ><input type="radio" name="color-scheme" value="dark" /> Dark</label
+        >
+      </fieldset>
+    </header>
+
+    <nav popover id="menu" aria-label="Site">
+      <button
+        popovertarget="menu"
+        popovertargetaction="hide"
+        data-variant="icon"
+        aria-label="Close menu"
+      >
+        ✕
+      </button>
+      <ul>
+        <li><a href="#main" aria-current="page">Showcase</a></li>
+        <li><a href="simple_material.css">Stylesheet</a></li>
+      </ul>
+      <hr />
+      <ul>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#lists">Lists</a></li>
+        <li><a href="#buttons">Buttons</a></li>
+        <li><a href="#badges">Badges &amp; tooltips</a></li>
+        <li><a href="#cards">Cards</a></li>
+        <li><a href="#layout">Layout &amp; grouping</a></li>
+        <li><a href="#text-fields">Text fields</a></li>
+        <li><a href="#selection">Selection controls</a></li>
+        <li><a href="#chips">Chips</a></li>
+        <li><a href="#progress">Progress</a></li>
+        <li><a href="#navigation">Navigation</a></li>
+        <li><a href="#tabs">Tabs</a></li>
+        <li><a href="#panels">Expansion panels</a></li>
+        <li><a href="#dialogs">Dialogs &amp; sheets</a></li>
+        <li><a href="#menus">Menus</a></li>
+        <li><a href="#snackbar">Snackbar</a></li>
+        <li><a href="#tables">Tables</a></li>
+        <li><a href="#media">Media</a></li>
+      </ul>
+    </nav>
+
+    <main id="main">
+      <header>
+        <h1>Simple Material</h1>
+        <p>
+          Material 3 styling for plain, semantic HTML. No classes, no divs and
+          no JavaScript: link one stylesheet and write ordinary markup.
+        </p>
+        <p>
+          The theme switch in the top bar is a segmented button made of three
+          radios named <code>color-scheme</code>. <strong>Auto</strong> follows
+          your system setting. On a narrow screen the navigation folds into the
+          ☰ menu.
+        </p>
+        <p>
+          <a href="#buttons" data-variant="filled">Browse components</a>
+          <a href="simple_material.css" data-variant="outlined">View the CSS</a>
+        </p>
+      </header>
+
+      <section id="typography">
+        <h2>Typography</h2>
+        <p>
+          Headings follow the Material 3 type scale. The page title is the
+          <code>h1</code> and each section starts with an <code>h2</code>.
+        </p>
+        <h3>Heading 3</h3>
+        <h4>Heading 4</h4>
+        <h5>Heading 5</h5>
+        <h6>Heading 6</h6>
+        <p>
+          Body text is 16px on a 24px line. Inline elements:
+          <a href="#typography">a link</a>, <strong>strong</strong>,
+          <em>emphasis</em>, <b>bold</b>, <i>idiomatic</i>,
+          <u>unarticulated</u>, <s>no longer accurate</s>,
+          <mark>highlighted</mark>, <small>small print</small>,
+          <abbr title="Cascading Style Sheets">CSS</abbr>,
+          <dfn>definition</dfn>, <q>a short quote</q>,
+          <cite>a cited work</cite>, <code>code</code>, <kbd>Ctrl</kbd> +
+          <kbd>C</kbd>, <samp>sample output</samp>, <var>x</var>,
+          H<sub>2</sub>O, E = mc<sup>2</sup>, <ins>inserted</ins>,
+          <del>deleted</del>,
+          <time datetime="2026-10-17">17 October 2026</time>,
+          <data value="42">forty-two</data>, <bdi>إيان</bdi>,
+          <bdo dir="rtl">reversed</bdo> and
+          <ruby
+            >漢<rp>(</rp><rt>kan</rt><rp>)</rp>字<rp>(</rp><rt>ji</rt
+            ><rp>)</rp></ruby
+          >.
+        </p>
+        <p>
+          Long words break at a <code>wbr</code>: super<wbr />cali<wbr />fragilistic<wbr />expiali<wbr />docious.<br />A
+          <code>br</code> forces a new line.
+        </p>
+        <figure>
+          <blockquote>
+            <p>Simplicity is prerequisite for reliability.</p>
+          </blockquote>
+          <figcaption>
+            Edsger W. Dijkstra,
+            <cite>How do we tell truths that might hurt?</cite>
+          </figcaption>
+        </figure>
+        <aside>
+          <p>
+            <strong>Note:</strong> an <code>aside</code> becomes a tonal callout
+            for tips and side notes.
+          </p>
+        </aside>
+        <hr />
+        <pre><code>&lt;p&gt;Press &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt; to copy.&lt;/p&gt;
+&lt;aside&gt;&lt;p&gt;A tonal callout.&lt;/p&gt;&lt;/aside&gt;</code></pre>
+      </section>
+
+      <section id="lists">
+        <h2>Lists</h2>
+        <p>
+          Bulleted and numbered lists keep their markers. A description list
+          becomes a two-line Material list with dividers.
+        </p>
+        <ul>
+          <li>Unordered item</li>
+          <li>
+            Another item
+            <ul>
+              <li>Nested item</li>
+            </ul>
+          </li>
+        </ul>
+        <ol>
+          <li>First step</li>
+          <li>Second step</li>
+        </ol>
+        <dl>
+          <dt>Wi-Fi</dt>
+          <dd>Connected to Home-5G</dd>
+          <dt>Bluetooth</dt>
+          <dd>Two devices paired</dd>
+          <dt>Battery</dt>
+          <dd>82%, about 9 hours left</dd>
+        </dl>
+      </section>
+
+      <section id="buttons">
+        <h2>Buttons</h2>
+        <p>
+          A <code>button</code> is filled by default;
+          <code>data-variant</code> selects the other Material styles. A link
+          with a <code>data-variant</code> looks like a button but keeps its
+          link role. Press one to see the ripple.
+        </p>
+        <p>
+          <button>Filled</button>
+          <button data-variant="tonal">Tonal</button>
+          <button data-variant="elevated">Elevated</button>
+          <button data-variant="outlined">Outlined</button>
+          <button data-variant="text">Text</button>
+        </p>
+        <p>
+          <a href="#buttons" data-variant="filled">Link as button</a>
+          <input type="button" value="Input button" data-variant="tonal" />
+          <button disabled>Disabled</button>
+          <button data-variant="outlined" disabled>Disabled outlined</button>
+        </p>
+        <p>
+          <button
+            data-variant="icon"
+            aria-label="Add to favourites"
+            data-tooltip="Add to favourites"
+          >
+            ♡
+          </button>
+          <button
+            data-variant="icon"
+            aria-label="Settings"
+            data-tooltip="Settings"
+          >
+            ⚙&#xFE0E;
+          </button>
+          <button data-variant="fab" aria-label="Create" data-tooltip="Create">
+            ＋
+          </button>
+          <button data-variant="fab">✎ Compose</button>
+        </p>
+        <pre><code>&lt;button&gt;Filled&lt;/button&gt;
+&lt;button data-variant="outlined"&gt;Outlined&lt;/button&gt;
+&lt;button data-variant="icon" aria-label="Settings"&gt;⚙&lt;/button&gt;
+&lt;a href="/docs" data-variant="tonal"&gt;Read the docs&lt;/a&gt;</code></pre>
+      </section>
+
+      <section id="badges">
+        <h2>Badges &amp; tooltips</h2>
+        <p>
+          Put <code>data-badge</code> on a <code>sup</code> for a count, or
+          leave it empty for a dot. Add <code>data-tooltip</code> to show a
+          plain tooltip on hover and keyboard focus. On icon buttons, repeat the
+          text in <code>aria-label</code>.
+        </p>
+        <p>
+          <button data-variant="tonal">Inbox <sup data-badge>12</sup></button>
+          <button data-variant="icon" aria-label="Messages, 3 new">
+            ✉&#xFE0E;<sup data-badge>3</sup>
+          </button>
+          <button
+            data-variant="icon"
+            aria-label="Updates available"
+            data-tooltip="Updates available"
+          >
+            ⟳<sup data-badge></sup>
+          </button>
+          <a href="#badges" data-tooltip="Tooltips work on links too"
+            >Hover or focus me</a
+          >
+        </p>
+        <pre><code>&lt;button&gt;Inbox &lt;sup data-badge&gt;12&lt;/sup&gt;&lt;/button&gt;
+&lt;button data-variant="icon" aria-label="Help" data-tooltip="Help"&gt;?&lt;/button&gt;</code></pre>
+      </section>
+
+      <section id="cards">
+        <h2>Cards</h2>
+        <p>
+          Every <code>article</code> is a card. Put several in a
+          <code>data-layout="grid"</code> container to lay them out in columns.
+          An image placed first runs to the edges.
+          <code>data-variant="filled"</code> and <code>"outlined"</code> give
+          quieter cards.
+        </p>
+        <section data-layout="grid">
+          <article>
+            <img
+              src="https://picsum.photos/id/1018/640/360"
+              alt="Green cliffs under a cloudy sky with a road winding below"
+              width="640"
+              height="360"
+              loading="lazy"
+            />
+            <h3>Elevated card</h3>
+            <p>The default card sits on a low surface with a soft shadow.</p>
+            <footer>
+              <button data-variant="text">Share</button>
+              <button>Book</button>
+            </footer>
+          </article>
+          <article data-variant="filled">
+            <img
+              src="https://picsum.photos/id/1015/640/360"
+              alt="A deep blue fjord between rocky mountains, seen from a cliff top"
+              width="640"
+              height="360"
+              loading="lazy"
+            />
+            <h3>Filled card</h3>
+            <p>The highest surface tone and no shadow.</p>
+            <footer>
+              <button data-variant="tonal">Open</button>
+            </footer>
+          </article>
+          <article data-variant="outlined">
+            <h3>Outlined card</h3>
+            <p>
+              A hairline border on the page surface, for content that needs less
+              emphasis.
+            </p>
+            <footer>
+              <a href="#cards" data-variant="outlined">Details</a>
+            </footer>
+          </article>
+        </section>
+        <pre><code>&lt;section data-layout="grid"&gt;
+  &lt;article data-variant="outlined"&gt;
+    &lt;img src="photo.jpg" alt="…"&gt;
+    &lt;h3&gt;Title&lt;/h3&gt;
+    &lt;p&gt;Supporting text.&lt;/p&gt;
+    &lt;footer&gt;&lt;button&gt;Action&lt;/button&gt;&lt;/footer&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+      </section>
+
+      <section id="layout">
+        <h2>Layout &amp; grouping</h2>
+        <p>
+          Add <code>data-layout</code> to any container to place its children
+          side by side: <code>"grid"</code> gives equal columns,
+          <code>"row"</code> keeps natural widths and <code>"split"</code> gives
+          a wide and a narrow column. Each falls back to a single column when
+          space runs out. A <code>section</code> inside another
+          <code>section</code> is a card, so it can group anything.
+        </p>
+        <section data-layout="grid">
+          <section>
+            <h3>Notifications</h3>
+            <label
+              ><input
+                type="checkbox"
+                role="switch"
+                name="notify-email"
+                checked
+              />
+              Email</label
+            >
+            <label
+              ><input type="checkbox" role="switch" name="notify-push" />
+              Push</label
+            >
+            <label
+              ><input type="checkbox" role="switch" name="notify-sms" />
+              SMS</label
+            >
+          </section>
+          <section data-variant="filled">
+            <h3>Storage</h3>
+            <label
+              >40 of 100 GB used
+              <meter value="40" max="100" low="70" high="90" optimum="0">
+                40 GB
+              </meter></label
+            >
+            <p><small>Photos 28 GB, documents 9 GB, other 3 GB.</small></p>
+          </section>
+          <section data-variant="outlined">
+            <h3>Account</h3>
+            <dl>
+              <dt>Plan</dt>
+              <dd>Family, renews 1 March</dd>
+              <dt>Members</dt>
+              <dd>4 of 6 seats used</dd>
+            </dl>
+          </section>
+        </section>
+        <section data-layout="split">
+          <section>
+            <h3>Send feedback</h3>
+            <form action="#layout">
+              <label>Subject <input name="subject" /></label>
+              <label
+                >Message <textarea name="message" rows="3"></textarea>
+              </label>
+              <p><button type="submit">Send</button></p>
+            </form>
+          </section>
+          <aside>
+            <p>
+              <strong>Before you write:</strong> the expansion panels above
+              answer the most common questions.
+            </p>
+          </aside>
+        </section>
+        <section data-layout="row">
+          <figure>
+            <img
+              src="https://picsum.photos/id/1018/240/160"
+              alt="Green cliffs under a cloudy sky"
+              width="240"
+              height="160"
+              loading="lazy"
+            />
+            <figcaption>Isle of Skye</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://picsum.photos/id/1015/240/160"
+              alt="A blue fjord between rocky mountains"
+              width="240"
+              height="160"
+              loading="lazy"
+            />
+            <figcaption>Lysefjord</figcaption>
+          </figure>
+          <figure>
+            <img
+              src="https://picsum.photos/id/1036/240/160"
+              alt="A yellow tent in snow below a mountain peak"
+              width="240"
+              height="160"
+              loading="lazy"
+            />
+            <figcaption>Base camp</figcaption>
+          </figure>
+        </section>
+        <pre><code>&lt;section data-layout="split"&gt;
+  &lt;section&gt;&lt;h3&gt;Send feedback&lt;/h3&gt;&lt;form&gt;…&lt;/form&gt;&lt;/section&gt;
+  &lt;aside&gt;…&lt;/aside&gt;
+&lt;/section&gt;</code></pre>
+      </section>
+
+      <section id="text-fields">
+        <h2>Text fields</h2>
+        <p>
+          Wrap each control in its <code>label</code>, so no ids are needed.
+          Fields use the filled Material style and the focus line grows from the
+          centre. Errors appear only after someone has interacted with a field
+          (<code>:user-invalid</code>). A <code>fieldset</code> arranges its
+          fields in responsive columns.
+        </p>
+        <form action="#text-fields">
+          <fieldset>
+            <legend>Account</legend>
+            <label
+              >Full name <input name="name" autocomplete="name" required
+            /></label>
+            <label
+              >Email
+              <input type="email" name="email" autocomplete="email" required />
+              <small>We never share your address.</small></label
+            >
+            <label
+              >Password
+              <input
+                type="password"
+                name="password"
+                autocomplete="new-password"
+                minlength="8"
+              />
+              <small>At least 8 characters.</small></label
+            >
+            <label
+              >Phone
+              <input
+                type="tel"
+                name="tel"
+                autocomplete="tel"
+                placeholder="+1 555 0100"
+            /></label>
+            <label
+              >Website <input type="url" name="website" placeholder="https://"
+            /></label>
+            <label
+              >Age <input type="number" name="age" min="0" max="130"
+            /></label>
+            <label
+              >Member ID <input name="member" value="SM-0042" disabled
+            /></label>
+          </fieldset>
+          <fieldset>
+            <legend>Trip</legend>
+            <label
+              >Destination
+              <input name="city" list="cities" placeholder="Start typing…"
+            /></label>
+            <datalist id="cities">
+              <option value="Kyoto"></option>
+              <option value="Lisbon"></option>
+              <option value="Montréal"></option>
+              <option value="Oslo"></option>
+            </datalist>
+            <label
+              >Cabin
+              <select name="cabin">
+                <optgroup label="Economy">
+                  <option>Standard</option>
+                  <option>Premium</option>
+                </optgroup>
+                <optgroup label="Business">
+                  <option>Business</option>
+                  <option>First</option>
+                </optgroup>
+              </select>
+            </label>
+            <label>Departure <input type="date" name="date" /></label>
+            <label>Time <input type="time" name="time" /></label>
+            <label>Return <input type="datetime-local" name="return" /></label>
+            <label>Travel month <input type="month" name="month" /></label>
+            <label
+              >Notes
+              <textarea
+                name="notes"
+                rows="3"
+                placeholder="Anything we should know?"
+              ></textarea>
+            </label>
+          </fieldset>
+          <label>Passport scan <input type="file" name="scan" /></label>
+          <label
+            >Luggage tag colour
+            <input type="color" name="colour" value="#6750a4"
+          /></label>
+          <p>
+            <button type="submit">Submit</button>
+            <button type="reset" data-variant="outlined">Reset</button>
+          </p>
+        </form>
+        <search>
+          <form action="#text-fields">
+            <input
+              type="search"
+              name="q"
+              aria-label="Search components"
+              placeholder="Search components"
+            />
+          </form>
+        </search>
+        <pre><code>&lt;label&gt;Email &lt;input type="email" required&gt; &lt;small&gt;Help text&lt;/small&gt;&lt;/label&gt;</code></pre>
+      </section>
+
+      <section id="selection">
+        <h2>Selection controls</h2>
+        <p>
+          Checkboxes, radio buttons and switches are native inputs inside their
+          label. A switch is a checkbox with <code>role="switch"</code>. A range
+          uses the theme colour.
+        </p>
+        <fieldset>
+          <legend>Notifications</legend>
+          <label
+            ><input type="checkbox" name="notify" value="email" checked />
+            Email</label
+          >
+          <label
+            ><input type="checkbox" name="notify" value="push" /> Push</label
+          >
+          <label
+            ><input type="checkbox" name="notify" value="sms" disabled /> SMS
+            (unavailable)</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>Map type</legend>
+          <label
+            ><input type="radio" name="map" value="default" checked />
+            Default</label
+          >
+          <label
+            ><input type="radio" name="map" value="satellite" />
+            Satellite</label
+          >
+          <label
+            ><input type="radio" name="map" value="terrain" /> Terrain</label
+          >
+        </fieldset>
+        <fieldset>
+          <legend>Privacy</legend>
+          <label
+            ><input type="checkbox" role="switch" name="location" checked />
+            Location access</label
+          >
+          <label
+            ><input type="checkbox" role="switch" name="usage" /> Share usage
+            data</label
+          >
+          <label
+            ><input type="checkbox" role="switch" name="ads" disabled />
+            Personalised ads</label
+          >
+        </fieldset>
+        <label
+          >Volume <input type="range" name="volume" min="0" max="10" value="6"
+        /></label>
+        <pre><code>&lt;label&gt;&lt;input type="checkbox" role="switch"&gt; Wi-Fi&lt;/label&gt;</code></pre>
+      </section>
+
+      <section id="chips">
+        <h2>Chips</h2>
+        <p>
+          A <code>fieldset data-variant="chips"</code> turns its checkboxes or
+          radios into filter chips; a tick slides in when one is selected. A
+          single <code>button data-variant="chip"</code> is an assist chip.
+        </p>
+        <fieldset data-variant="chips">
+          <legend>Dietary needs</legend>
+          <label
+            ><input type="checkbox" name="diet" value="vegetarian" checked />
+            Vegetarian</label
+          >
+          <label
+            ><input type="checkbox" name="diet" value="vegan" /> Vegan</label
+          >
+          <label
+            ><input type="checkbox" name="diet" value="gluten" />
+            Gluten-free</label
+          >
+          <label
+            ><input type="checkbox" name="diet" value="nuts" /> Nut-free</label
+          >
+        </fieldset>
+        <fieldset data-variant="chips">
+          <legend>Delivery</legend>
+          <label
+            ><input type="radio" name="delivery" value="standard" checked />
+            Standard</label
+          >
+          <label
+            ><input type="radio" name="delivery" value="express" />
+            Express</label
+          >
+          <label
+            ><input type="radio" name="delivery" value="pickup" />
+            Pick-up</label
+          >
+        </fieldset>
+        <p>
+          <button data-variant="chip">＋ Add to calendar</button>
+          <a href="#chips" data-variant="chip">Get directions</a>
+        </p>
+        <pre><code>&lt;fieldset data-variant="chips"&gt;
+  &lt;legend&gt;Dietary needs&lt;/legend&gt;
+  &lt;label&gt;&lt;input type="checkbox" checked&gt; Vegetarian&lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+      </section>
+
+      <section id="progress">
+        <h2>Progress &amp; meters</h2>
+        <p>
+          A <code>progress</code> with a value is determinate; without one it
+          animates. <code>data-variant="circular"</code> makes a spinner. A
+          <code>meter</code> changes colour based on its <code>low</code>,
+          <code>high</code> and <code>optimum</code> values.
+        </p>
+        <label
+          >Uploading 3 of 5 files
+          <progress value="60" max="100">60%</progress></label
+        >
+        <label>Loading results <progress>Loading…</progress></label>
+        <p>
+          <progress data-variant="circular" aria-label="Loading">
+            Loading…
+          </progress>
+        </p>
+        <label
+          >Storage: 40 of 100 GB used
+          <meter value="40" max="100" low="70" high="90" optimum="0">
+            40 GB
+          </meter></label
+        >
+        <label
+          >Storage: 80 of 100 GB used
+          <meter value="80" max="100" low="70" high="90" optimum="0">
+            80 GB
+          </meter></label
+        >
+        <label
+          >Storage: 96 of 100 GB used
+          <meter value="96" max="100" low="70" high="90" optimum="0">
+            96 GB
+          </meter></label
+        >
+      </section>
+
+      <section id="navigation">
+        <h2>Navigation</h2>
+        <p>
+          The top app bar is <code>body &gt; header</code> and the side
+          navigation is <code>body &gt; nav</code>. Give the side nav the
+          <code>popover</code> attribute and put a button with
+          <code>popovertarget</code> first in the app bar: on narrow screens the
+          nav becomes a drawer behind that button, and it closes on
+          <kbd>Esc</kbd> or a tap outside. Inside the content, a
+          <code>nav</code> holding an <code>ol</code> is a breadcrumb trail, and
+          one holding a <code>ul</code> is a row of links such as pagination.
+          Mark the current item with <code>aria-current</code>.
+        </p>
+        <pre><code>&lt;header&gt;
+  &lt;button popovertarget="menu" data-variant="icon" aria-label="Open menu"&gt;☰&lt;/button&gt;
+  &lt;a href="/"&gt;Site name&lt;/a&gt;
+&lt;/header&gt;
+&lt;nav popover id="menu"&gt;&lt;ul&gt;…&lt;/ul&gt;&lt;/nav&gt;</code></pre>
+        <h3>Breadcrumbs</h3>
+        <nav aria-label="Breadcrumb">
+          <ol>
+            <li><a href="#main">Home</a></li>
+            <li><a href="#navigation">Components</a></li>
+            <li><a href="#navigation" aria-current="page">Navigation</a></li>
+          </ol>
+        </nav>
+        <h3>Pagination</h3>
+        <nav aria-label="Pagination">
+          <ul>
+            <li><a href="#navigation" aria-label="Previous page">‹</a></li>
+            <li><a href="#navigation">1</a></li>
+            <li><a href="#navigation" aria-current="page">2</a></li>
+            <li><a href="#navigation">3</a></li>
+            <li><a href="#navigation">4</a></li>
+            <li><a href="#navigation" aria-label="Next page">›</a></li>
+          </ul>
+        </nav>
+        <pre><code>&lt;nav aria-label="Breadcrumb"&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="/docs" aria-current="page"&gt;Docs&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+      </section>
+
+      <section id="tabs">
+        <h2>Tabs</h2>
+        <p>
+          Tabs are <code>details</code> elements that share a <code>name</code>,
+          inside a <code>data-variant="tabs"</code> container. Opening one
+          closes the others. Browsers without
+          <code>::details-content</code> show them as an accordion instead.
+        </p>
+        <section data-variant="tabs" aria-label="Trip planner">
+          <details name="trip" open>
+            <summary>Flights</summary>
+            <p>
+              Compare fares from 40 airlines. Prices include taxes and one
+              carry-on bag.
+            </p>
+          </details>
+          <details name="trip">
+            <summary>Hotels</summary>
+            <p>
+              Free cancellation on most rooms until 24 hours before check-in.
+            </p>
+          </details>
+          <details name="trip">
+            <summary>Cars</summary>
+            <p>
+              Pick up at the airport or in town; unlimited mileage included.
+            </p>
+          </details>
+        </section>
+        <pre><code>&lt;section data-variant="tabs" aria-label="Trip planner"&gt;
+  &lt;details name="trip" open&gt;&lt;summary&gt;Flights&lt;/summary&gt;…&lt;/details&gt;
+  &lt;details name="trip"&gt;&lt;summary&gt;Hotels&lt;/summary&gt;…&lt;/details&gt;
+&lt;/section&gt;</code></pre>
+      </section>
+
+      <section id="panels">
+        <h2>Expansion panels</h2>
+        <p>
+          Each <code>details</code> is a panel that animates open and closed.
+          Panels that share a <code>name</code> behave as an accordion.
+        </p>
+        <details name="faq" open>
+          <summary>Do I need JavaScript?</summary>
+          <p>No. Every widget on this page works with HTML and CSS alone.</p>
+        </details>
+        <details name="faq">
+          <summary>Can I change the colours?</summary>
+          <p>
+            Set <code>--hue</code> on <code>:root</code>. Every colour role is
+            derived from it, in both light and dark mode.
+          </p>
+        </details>
+        <details name="faq">
+          <summary>Which browsers are supported?</summary>
+          <p>
+            Current Chrome, Edge, Firefox and Safari. Features a browser lacks
+            degrade to simpler, still working widgets.
+          </p>
+        </details>
+      </section>
+
+      <section id="dialogs">
+        <h2>Dialogs &amp; sheets</h2>
+        <p>
+          A <code>dialog</code> opens with <code>commandfor</code> and
+          <code>command="show-modal"</code>, so no script is needed. Buttons in
+          a <code>form method="dialog"</code> close it, as does <kbd>Esc</kbd>.
+          <code>data-variant="sheet"</code> docks the dialog to the bottom of
+          the screen.
+        </p>
+        <p>
+          <button commandfor="discard" command="show-modal">Open dialog</button>
+          <button commandfor="share" command="show-modal" data-variant="tonal">
+            Open bottom sheet
+          </button>
+        </p>
+        <dialog id="discard" aria-labelledby="discard-title" closedby="any">
+          <h2 id="discard-title">Discard draft?</h2>
+          <p>Your message will be deleted and can't be recovered.</p>
+          <form method="dialog">
+            <button data-variant="text">Cancel</button>
+            <button data-variant="text">Discard</button>
+          </form>
+        </dialog>
+        <dialog
+          id="share"
+          data-variant="sheet"
+          aria-labelledby="share-title"
+          closedby="any"
+        >
+          <h2 id="share-title">Share</h2>
+          <form method="dialog">
+            <menu>
+              <li><button>Copy link</button></li>
+              <li><button>Email</button></li>
+              <li><button>Message</button></li>
+            </menu>
+          </form>
+        </dialog>
+        <pre><code>&lt;button commandfor="confirm" command="show-modal"&gt;Delete&lt;/button&gt;
+&lt;dialog id="confirm"&gt;
+  &lt;h2&gt;Delete file?&lt;/h2&gt;
+  &lt;form method="dialog"&gt;&lt;button&gt;OK&lt;/button&gt;&lt;/form&gt;
+&lt;/dialog&gt;</code></pre>
+      </section>
+
+      <section id="menus">
+        <h2>Menus</h2>
+        <p>
+          A <code>menu</code> with the <code>popover</code> attribute opens from
+          a button with <code>popovertarget</code>. Where CSS anchor positioning
+          is supported it opens below the button. It closes on an outside click
+          or <kbd>Esc</kbd>.
+        </p>
+        <p>
+          <button popovertarget="sort" data-variant="outlined">
+            Sort by ▾
+          </button>
+        </p>
+        <menu popover id="sort">
+          <li><button>Newest first</button></li>
+          <li><button>Oldest first</button></li>
+          <li><button>Most popular</button></li>
+          <li><hr /></li>
+          <li><a href="#menus">Sorting help</a></li>
+        </menu>
+        <pre><code>&lt;button popovertarget="sort"&gt;Sort by&lt;/button&gt;
+&lt;menu popover id="sort"&gt;
+  &lt;li&gt;&lt;button&gt;Newest first&lt;/button&gt;&lt;/li&gt;
+&lt;/menu&gt;</code></pre>
+      </section>
+
+      <section id="snackbar">
+        <h2>Snackbar</h2>
+        <p>
+          An <code>output</code> with <code>popover="manual"</code> becomes a
+          snackbar that slides up from the bottom. Buttons inside it close it
+          with <code>popovertargetaction="hide"</code>.
+        </p>
+        <p>
+          <button popovertarget="toast" data-variant="tonal">
+            Archive message
+          </button>
+        </p>
+        <output popover="manual" id="toast"
+          >Message archived
+          <button
+            popovertarget="toast"
+            popovertargetaction="hide"
+            data-variant="text"
+          >
+            Undo
+          </button>
+          <button
+            popovertarget="toast"
+            popovertargetaction="hide"
+            data-variant="icon"
+            aria-label="Dismiss"
+          >
+            ✕
+          </button>
+        </output>
+      </section>
+
+      <section id="tables">
+        <h2>Tables</h2>
+        <p>
+          Tables get Material data-table styling, with row hover and a bold
+          footer. Wrap a wide table in a <code>figure</code> so it scrolls
+          sideways on small screens.
+        </p>
+        <figure>
+          <table>
+            <caption>
+              Quarterly sales by region
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Region</th>
+                <th scope="col">Q1</th>
+                <th scope="col">Q2</th>
+                <th scope="col">Q3</th>
+                <th scope="col">Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">North</th>
+                <td>€12,400</td>
+                <td>€13,100</td>
+                <td>€14,900</td>
+                <td>+20%</td>
+              </tr>
+              <tr>
+                <th scope="row">South</th>
+                <td>€9,800</td>
+                <td>€9,200</td>
+                <td>€10,050</td>
+                <td>+3%</td>
+              </tr>
+              <tr>
+                <th scope="row">East</th>
+                <td>€15,300</td>
+                <td>€14,800</td>
+                <td>€13,600</td>
+                <td>−11%</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row">Total</th>
+                <td>€37,500</td>
+                <td>€37,100</td>
+                <td>€38,550</td>
+                <td>+3%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </figure>
+      </section>
+
+      <section id="media">
+        <h2>Media</h2>
+        <p>
+          Images, video and audio scale to their container. Inside a
+          <code>figure</code>, images and video get rounded corners and the
+          <code>figcaption</code> is set in small type.
+        </p>
+        <figure>
+          <picture>
+            <source
+              srcset="https://picsum.photos/id/1036/1200/500"
+              media="(width >= 48rem)"
+            />
+            <img
+              src="https://picsum.photos/id/1036/800/450"
+              alt="A yellow tent pitched in deep snow below a mountain peak"
+              width="800"
+              height="450"
+              loading="lazy"
+            />
+          </picture>
+          <figcaption>
+            A <code>picture</code> serves a wider crop on large screens.
+          </figcaption>
+        </figure>
+        <figure>
+          <video controls preload="metadata" width="1280" height="720">
+            <source
+              src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm"
+              type="video/webm"
+            />
+            <source
+              src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <figcaption>
+            A <code>video</code> with native controls (CC0 clip from MDN).
+          </figcaption>
+        </figure>
+        <figure>
+          <audio
+            controls
+            preload="none"
+            src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"
+          ></audio>
+          <figcaption>
+            An <code>audio</code> element stretches to the full width.
+          </figcaption>
+        </figure>
+        <figure>
+          <svg
+            viewBox="0 0 120 40"
+            width="240"
+            height="80"
+            role="img"
+            aria-label="A circle, a rounded square and a triangle"
+          >
+            <circle cx="20" cy="20" r="16" fill="currentColor" />
+            <rect
+              x="44"
+              y="4"
+              width="32"
+              height="32"
+              rx="6"
+              fill="currentColor"
+              opacity="0.6"
+            />
+            <path d="M100 4 116 36H84Z" fill="currentColor" opacity="0.3" />
+          </svg>
+          <figcaption>
+            Inline <code>svg</code> drawn in <code>currentColor</code> follows
+            the theme.
+          </figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <footer>
+      <p>Simple Material: classless Material 3 for semantic HTML.</p>
+      <address>
+        Questions? <a href="mailto:hello@example.com">hello@example.com</a>
+      </address>
+    </footer>
+  </body>
+</html>
