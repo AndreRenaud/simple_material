@@ -47,12 +47,25 @@
       <label
         >Colour theme
         <select name="theme">
-          <option value="violet">Violet</option>
-          <option value="rose">Rose</option>
-          <option value="orange">Orange</option>
-          <option value="olive">Olive</option>
-          <option value="teal">Teal</option>
-          <option value="navy">Navy</option>
+          <optgroup label="Material">
+            <option value="violet">Violet</option>
+            <option value="rose">Rose</option>
+            <option value="orange">Orange</option>
+            <option value="olive">Olive</option>
+            <option value="teal">Teal</option>
+            <option value="navy">Navy</option>
+          </optgroup>
+          <optgroup label="Windows 98">
+            <option value="win98">Windows Standard</option>
+            <option value="win98-rainy-day">Rainy Day</option>
+            <option value="win98-eggplant">Eggplant</option>
+            <option value="win98-spruce">Spruce</option>
+            <option value="win98-brick">Brick</option>
+          </optgroup>
+          <optgroup label="Mac OS 9">
+            <option value="macos9">Platinum</option>
+            <option value="macos9-silver">Platinum Silver</option>
+          </optgroup>
         </select>
       </label>
       <ul>
@@ -116,17 +129,22 @@
         <h2>Colour themes</h2>
         <p>
           Every colour is derived from a hue, so a theme is a few settings that
-          work in light and dark mode. Violet is the default, and
-          <code>rose</code>, <code>orange</code>, <code>olive</code>,
-          <code>teal</code> and <code>navy</code> start from popular
-          <a href="https://coolors.co/palettes/trending">Coolors</a> palettes.
-          Pick one with <code>data-theme</code> on the <code>html</code>
-          element:
+          work in light and dark mode. Violet is the default; pick another with
+          <code>data-theme</code> on the <code>html</code> element:
         </p>
         <pre><code>&lt;html lang="en" data-theme="teal"&gt;</code></pre>
         <p>
           A <code>select</code> named <code>theme</code>, like the one at the
           top of the navigation, switches between them without JavaScript.
+        </p>
+        <p>
+          The retro themes borrow the colours, not the bevels, of two classic
+          desktops. <code>win98</code> is Windows 98's Windows Standard scheme,
+          and <code>win98-rainy-day</code>, <code>win98-eggplant</code>,
+          <code>win98-spruce</code> and <code>win98-brick</code> are its
+          namesakes. <code>macos9</code> is Mac OS 9's Platinum with the
+          Lavender variation, and <code>macos9-silver</code> the Silver one.
+          Neither system had a dark mode, so theirs is new.
         </p>
         <p>
           To make your own, set the four values a theme sets on
@@ -561,17 +579,69 @@
             <button type="reset" data-variant="outlined">Reset</button>
           </p>
         </form>
+        <pre><code>&lt;label&gt;Email &lt;input type="email" required&gt; &lt;small&gt;Help text&lt;/small&gt;&lt;/label&gt;</code></pre>
+        <p>
+          A <code>ul</code> straight after a search input becomes its hints:
+          while the field has focus, the bar grows into a panel listing them.
+          Make them links, optionally with an <code>img</code> and a
+          <code>small</code> second line. A real site would normally use
+          JavaScript to swap in hints that match what is typed; this showcase
+          deliberately has no JavaScript, and CSS can't see the text, so these
+          hints stay the same.
+        </p>
         <search>
           <form action="#text-fields">
             <input
               type="search"
               name="q"
-              aria-label="Search components"
-              placeholder="Search components"
+              aria-label="Search places"
+              placeholder="Search places"
             />
+            <ul aria-label="Suggestions">
+              <li>
+                <a href="#layout"
+                  ><img
+                    src="https://picsum.photos/id/1018/96/96"
+                    alt=""
+                    width="96"
+                    height="96"
+                  />
+                  Isle of Skye <small>Scotland, in Layout</small></a
+                >
+              </li>
+              <li>
+                <a href="#cards"
+                  ><img
+                    src="https://picsum.photos/id/1015/96/96"
+                    alt=""
+                    width="96"
+                    height="96"
+                  />
+                  Lysefjord <small>Norway, in Cards</small></a
+                >
+              </li>
+              <li>
+                <a href="#media"
+                  ><img
+                    src="https://picsum.photos/id/1036/96/96"
+                    alt=""
+                    width="96"
+                    height="96"
+                  />
+                  Base camp <small>In Media</small></a
+                >
+              </li>
+              <li><a href="#buttons">Buttons</a></li>
+            </ul>
           </form>
         </search>
-        <pre><code>&lt;label&gt;Email &lt;input type="email" required&gt; &lt;small&gt;Help text&lt;/small&gt;&lt;/label&gt;</code></pre>
+        <pre><code>&lt;search&gt;&lt;form&gt;
+  &lt;input type="search" name="q" aria-label="Search places"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#cards"&gt;&lt;img src="fjord.jpg" alt=""&gt; Lysefjord &lt;small&gt;Norway&lt;/small&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#buttons"&gt;Buttons&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/form&gt;&lt;/search&gt;</code></pre>
       </section>
 
       <section id="selection">

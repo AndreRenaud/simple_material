@@ -24,7 +24,7 @@
      strongly the hue tints surfaces, text and outlines. Violet is the default;
      pick another with data-theme on the html element. A select named "theme"
      switches between them. Each theme sets all four, so none leak between
-     them. The others start from palettes at coolors.co/palette/… */
+     them. */
 
   :root,
   :root:has(select[name="theme"] [value="violet"]:checked) {
@@ -34,7 +34,7 @@
     --tint: 1;
   }
 
-  /* Rose with a blue-violet accent: ffbe0b-fb5607-ff006e-8338ec-3a86ff */
+  /* Rose with a blue-violet accent */
   :root[data-theme="rose"],
   :root:has(select[name="theme"] [value="rose"]:checked) {
     --hue: 8;
@@ -43,7 +43,7 @@
     --tint: 1;
   }
 
-  /* Orange with a deep blue accent: 003049-d62828-f77f00-fcbf49-eae2b7 */
+  /* Orange with a deep blue accent */
   :root[data-theme="orange"],
   :root:has(select[name="theme"] [value="orange"]:checked) {
     --hue: 54;
@@ -52,7 +52,7 @@
     --tint: 1;
   }
 
-  /* Moss green and copper, warm surfaces: 606c38-283618-fefae0-dda15e-bc6c25 */
+  /* Moss green and copper, warm surfaces */
   :root[data-theme="olive"],
   :root:has(select[name="theme"] [value="olive"]:checked) {
     --hue: 120;
@@ -61,7 +61,7 @@
     --tint: 2.5;
   }
 
-  /* Persian green, burnt sienna accent: 264653-2a9d8f-e9c46a-f4a261-e76f51 */
+  /* Persian green, burnt sienna accent */
   :root[data-theme="teal"],
   :root:has(select[name="theme"] [value="teal"]:checked) {
     --hue: 183;
@@ -70,13 +70,155 @@
     --tint: 1;
   }
 
-  /* Blue, gold accent, navy surfaces: 000814-001d3d-003566-ffc300-ffd60a */
+  /* Blue, gold accent, navy surfaces */
   :root[data-theme="navy"],
   :root:has(select[name="theme"] [value="navy"]:checked) {
     --hue: 253;
     --tertiary-hue: 87;
     --chroma: 0.95;
     --tint: 2;
+  }
+
+  /* Retro themes: the colours of Windows 98's appearance schemes and Mac OS
+     9's Platinum, on the same Material shapes. Instead of a hue each sets
+     three colours: --face (the grey of buttons and dialogs), --title (the
+     active title bar, or Platinum's variation colour) and --accent (used by
+     mark). The Windows values are the ones ReactOS ships for these schemes. */
+
+  /* Windows Standard: silver, navy title bars, teal desktop */
+  :root[data-theme="win98"],
+  :root:has(select[name="theme"] [value="win98"]:checked) {
+    --face: #c0c0c0;
+    --title: #000080;
+    --accent: #008080;
+  }
+
+  /* Rainy Day: blue-grey, slate title bars fading to sky blue */
+  :root[data-theme="win98-rainy-day"],
+  :root:has(select[name="theme"] [value="win98-rainy-day"]:checked) {
+    --face: #8399b1;
+    --title: #4f657d;
+    --accent: #80b4d0;
+  }
+
+  /* Eggplant: sage, green title bars fading to purple */
+  :root[data-theme="win98-eggplant"],
+  :root:has(select[name="theme"] [value="win98-eggplant"]:checked) {
+    --face: #90b0a8;
+    --title: #588078;
+    --accent: #834b83;
+  }
+
+  /* Spruce: mint, green title bars fading to pale blue */
+  :root[data-theme="win98-spruce"],
+  :root:has(select[name="theme"] [value="win98-spruce"]:checked) {
+    --face: #a2c8a9;
+    --title: #599764;
+    --accent: #98c8e8;
+  }
+
+  /* Brick: khaki, maroon title bars fading to copper */
+  :root[data-theme="win98-brick"],
+  :root:has(select[name="theme"] [value="win98-brick"]:checked) {
+    --face: #c2bfa5;
+    --title: #800000;
+    --accent: #b07440;
+  }
+
+  /* Platinum with the Lavender variation, as Mac OS 9 shipped */
+  :root[data-theme="macos9"],
+  :root:has(select[name="theme"] [value="macos9"]:checked) {
+    --face: #dddddd;
+    --title: #6363ce;
+    --accent: #ffff9c;
+  }
+
+  /* Platinum with the Silver variation */
+  :root[data-theme="macos9-silver"],
+  :root:has(select[name="theme"] [value="macos9-silver"]:checked) {
+    --face: #dddddd;
+    --title: #737373;
+    --accent: #ffff9c;
+  }
+
+  /* Roles for the retro themes, from those three colours: surfaces are the
+     face, lifted to at least 80% lightness so text keeps its contrast, with
+     white fields and pale yellow tooltips; primary is the title colour,
+     darkened where needed to read as a link on the face. Neither system had a
+     dark mode, so that is invented. Any data-theme starting win98- or macos9-
+     gets these roles. A theme select wins over data-theme, as it does for the
+     hue settings. Forced colours keep their system colours. */
+
+  @media not (forced-colors: active) {
+    :root:is([data-theme|="win98"], [data-theme|="macos9"]):not(
+        :has(select[name="theme"])
+      ),
+    :root:has(
+        select[name="theme"] :is([value|="win98"], [value|="macos9"]):checked
+      ) {
+      --chrome: light-dark(
+        oklch(from var(--face) max(l, 0.8) c h),
+        oklch(from var(--face) 0.27 calc(c / 2) h)
+      );
+      --paper: light-dark(#fff, oklch(from var(--face) 0.36 calc(c / 2) h));
+      --primary: light-dark(
+        oklch(from var(--title) min(l, 0.4) c h),
+        oklch(from var(--title) 0.8 min(c, 0.12) h)
+      );
+      --on-primary: light-dark(
+        #fff,
+        oklch(from var(--title) 0.25 min(c, 0.1) h)
+      );
+      --inverse-primary: oklch(from var(--title) min(l, 0.4) c h);
+      --primary-container: light-dark(
+        oklch(from var(--title) 0.84 min(c, 0.07) h),
+        oklch(from var(--title) 0.38 min(c, 0.1) h)
+      );
+      --on-primary-container: light-dark(
+        oklch(from var(--title) 0.3 min(c, 0.12) h),
+        oklch(from var(--title) 0.92 min(c, 0.05) h)
+      );
+      --secondary-container: color-mix(
+        in oklab,
+        var(--chrome),
+        var(--primary) 15%
+      );
+      --on-secondary-container: light-dark(
+        oklch(from var(--title) 0.25 min(c, 0.05) h),
+        oklch(from var(--title) 0.92 min(c, 0.03) h)
+      );
+      --tertiary-container: light-dark(
+        oklch(from var(--accent) 0.9 min(c, 0.07) h),
+        oklch(from var(--accent) 0.4 min(c, 0.08) h)
+      );
+      --on-tertiary-container: light-dark(
+        oklch(from var(--accent) 0.3 min(c, 0.08) h),
+        oklch(from var(--accent) 0.92 min(c, 0.05) h)
+      );
+      --surface: var(--chrome);
+      --surface-low: color-mix(in oklab, var(--chrome), var(--paper) 20%);
+      --surface-mid: color-mix(in oklab, var(--chrome), var(--paper) 35%);
+      --surface-high: color-mix(in oklab, var(--chrome), var(--paper) 55%);
+      --surface-highest: var(--paper);
+      --on-surface: light-dark(
+        #000,
+        oklch(from var(--face) 0.94 calc(c / 4) h)
+      );
+      --on-surface-variant: light-dark(
+        oklch(from var(--face) 0.36 calc(c / 2) h),
+        oklch(from var(--face) 0.82 calc(c / 2) h)
+      );
+      --outline: light-dark(
+        oklch(from var(--face) 0.5 calc(c / 2) h),
+        oklch(from var(--face) 0.66 calc(c / 2) h)
+      );
+      --outline-variant: light-dark(
+        oklch(from var(--face) 0.64 c h),
+        oklch(from var(--face) 0.44 calc(c / 2) h)
+      );
+      --inverse-surface: #ffffe1;
+      --inverse-on-surface: #000;
+    }
   }
 
   /* Tokens */
@@ -679,6 +821,7 @@
     summary,
     nav ul a,
     menu a,
+    [type="search"] + ul a,
     :is([data-variant="chips"], [data-variant="segmented"]) label
   ) {
     background-color: var(--bg, transparent);
@@ -1057,6 +1200,82 @@
     &:focus-visible {
       outline: 3px solid var(--primary);
     }
+  }
+
+  /* Search hints: a ul straight after a search input, ideally of links. While
+     the field has focus the bar grows into a panel listing them. CSS can't see
+     what's typed, so they don't filter. The panel sits behind the bar and is
+     clipped to the bar's pill while closed, rather than hidden: Chromium won't
+     Tab into links that are hidden as the field loses focus. Hovering it keeps
+     it open, as Safari doesn't focus a link that is clicked. */
+
+  :has(> [type="search"] + ul) {
+    position: relative;
+    z-index: 1;
+    transition: filter var(--slow) var(--ease);
+  }
+
+  :has(
+    > [type="search"]:focus + ul,
+    > [type="search"] + ul:hover,
+    > [type="search"] + ul :focus-visible
+  ) {
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.3))
+      drop-shadow(0 4px 8px rgb(0 0 0 / 0.15));
+  }
+
+  [type="search"]:has(+ ul) {
+    position: relative;
+    z-index: 1;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  [type="search"] + ul {
+    position: absolute;
+    inset: 0 0 auto;
+    margin: 0;
+    padding: 3.5rem 0 0.5rem;
+    list-style: none;
+    border-radius: 1.75rem;
+    background: linear-gradient(var(--outline-variant) 0 0) 0 3.5rem / 100% 1px
+      no-repeat var(--surface-high);
+    clip-path: inset(0 0 calc(100% - 3.5rem) round 1.75rem);
+    transition: clip-path var(--slow) var(--ease);
+    a {
+      --bg: transparent;
+      display: grid;
+      align-content: center;
+      align-items: center;
+      column-gap: 1rem;
+      min-height: 3.5rem;
+      padding: 0.5rem 1.5rem;
+      color: var(--on-surface);
+      text-decoration: none;
+      outline-offset: -3px;
+      &:has(> img) {
+        grid-template-columns: auto 1fr;
+      }
+    }
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.5rem;
+      object-fit: cover;
+    }
+    a:has(> small) > img {
+      grid-row: span 2;
+    }
+    small {
+      color: var(--on-surface-variant);
+      font-size: 0.875rem;
+    }
+  }
+
+  [type="search"]:focus + ul,
+  [type="search"] + ul:is(:hover, :has(:focus-visible)) {
+    clip-path: inset(0 round 1.75rem);
   }
 
   ::placeholder {
@@ -1864,7 +2083,8 @@
     article,
     dialog,
     menu,
-    [popover] {
+    [popover],
+    [type="search"] + ul {
       border: 1px solid CanvasText;
     }
   }

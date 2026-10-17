@@ -128,6 +128,15 @@ async function tour() {
   await pause(500);
   await click('body > header label:has([value="dark"])');
   await pause(1000);
+  // Open the search hints, hover one (they're links, so don't click), then
+  // close them by clicking the heading just below the panel.
+  await scrollTo('#text-fields input[type="search"]');
+  await click('#text-fields input[type="search"]');
+  await pause(900);
+  await hover('#text-fields [type="search"] + ul li:nth-child(2) a');
+  await pause(800);
+  await click("#selection h2");
+  await pause(600);
   await scrollTo("#selection");
   await click('#selection input[name="usage"]');
   await pause(400);

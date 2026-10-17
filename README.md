@@ -14,11 +14,35 @@ See every component on the [showcase page](https://andrerenaud.github.io/simple_
 - Discreet animations, driven purely by CSS
 - Small files, targeting the latest browsers and their newest features
 
+## Installation
+
+Copy `simple_material.css` into your project and link it from your HTML:
+
+```sh
+curl -O https://raw.githubusercontent.com/AndreRenaud/simple_material/main/simple_material.css
+```
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="simple_material.css" />
+  </head>
+  <body>
+    <button>Hello</button>
+  </body>
+</html>
+```
+
+The whole point of this library is to avoid heavyweight external dependencies,
+so copying the file is almost always the right answer. There is no package to
+install, no build step and nothing to keep in sync with a CDN.
+
 ## Usage
 
 ```html
-<link rel="stylesheet" href="simple_material.css" />
-
 <button>Filled</button>
 <button data-variant="outlined">Outlined</button>
 
@@ -47,13 +71,23 @@ element:
 </html>
 ```
 
-| Theme    | Primary and accent          | Based on                                                                  |
-| -------- | --------------------------- | ------------------------------------------------------------------------- |
-| `rose`   | rose, blue-violet           | [ff006e …](https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff) |
-| `orange` | orange, deep blue           | [f77f00 …](https://coolors.co/palette/003049-d62828-f77f00-fcbf49-eae2b7) |
-| `olive`  | moss green, copper; warm    | [606c38 …](https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25) |
-| `teal`   | Persian green, burnt sienna | [2a9d8f …](https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51) |
-| `navy`   | blue, gold; navy surfaces   | [003566 …](https://coolors.co/palette/000814-001d3d-003566-ffc300-ffd60a) |
+| Theme             | Primary and accent                                  |
+| ----------------- | --------------------------------------------------- |
+| `rose`            | rose, blue-violet                                   |
+| `orange`          | orange, deep blue                                   |
+| `olive`           | moss green, copper; warm                            |
+| `teal`            | Persian green, burnt sienna                         |
+| `navy`            | blue, gold; navy surfaces                           |
+| `win98`           | navy, teal; silver surfaces (Windows 98 Standard)   |
+| `win98-rainy-day` | slate, sky blue; blue-grey (Windows 98 Rainy Day)   |
+| `win98-eggplant`  | green, purple; sage surfaces (Windows 98 Eggplant)  |
+| `win98-spruce`    | green, pale blue; mint surfaces (Windows 98 Spruce) |
+| `win98-brick`     | maroon, copper; khaki surfaces (Windows 98 Brick)   |
+| `macos9`          | lavender, yellow; platinum (Mac OS 9)               |
+| `macos9-silver`   | grey, yellow; platinum (Mac OS 9, Silver variation) |
+
+The `win98` and `macos9` themes take their colours, but not their bevels, from
+those classic desktops. Neither system had a dark mode, so theirs is new.
 
 To make your own, set the same four values on `:root`:
 

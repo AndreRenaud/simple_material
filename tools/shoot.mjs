@@ -64,6 +64,14 @@ const states = {
     await p.focus('#text-fields input[name="password"]');
     return "#text-fields";
   },
+  // Scrolled to the top of the viewport, as the panel hangs below the section.
+  async "search-hints"(p) {
+    const search = p.locator('#text-fields input[type="search"]');
+    await search.evaluate((el) =>
+      el.scrollIntoView({ block: "start", behavior: "instant" }),
+    );
+    await search.click();
+  },
   async "chips-toggled"(p) {
     await p.click("#chips label:has(input[value=vegan])");
     await p.click("#chips label:has(input[value=express])");
@@ -121,7 +129,20 @@ const states = {
 
 // Each colour theme, picked with the nav's select, over the buttons. Forced,
 // as on narrow screens the select is inside the closed drawer.
-for (const theme of ["rose", "orange", "olive", "teal", "navy"]) {
+for (const theme of [
+  "rose",
+  "orange",
+  "olive",
+  "teal",
+  "navy",
+  "win98",
+  "win98-rainy-day",
+  "win98-eggplant",
+  "win98-spruce",
+  "win98-brick",
+  "macos9",
+  "macos9-silver",
+]) {
   states[`theme-${theme}`] = async (p) => {
     await p.selectOption('body > nav select[name="theme"]', theme, {
       force: true,
@@ -149,6 +170,11 @@ async function tour(p) {
   await p.fill('#text-fields input[type="email"]', "nope");
   await p.click('#text-fields input[name="password"]');
   await pause(p, 800);
+  await show('#text-fields input[type="search"]');
+  await p.click('#text-fields input[type="search"]');
+  await pause(p, 1000);
+  await p.click("#text-fields > p");
+  await pause(p, 400);
   await show("#selection");
   for (const target of [
     '[value="push"]',
