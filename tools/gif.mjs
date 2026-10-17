@@ -1,10 +1,10 @@
 // Records an animated tour of showcase.html as docs/showcase.gif.
 // Frames come from Chromium's DevTools screencast, so they are lossless and
-// carry real timestamps; ffmpeg then caps the frame rate and the palette.
+// carry their own timestamps; ffmpeg then caps the frame rate and the palette.
 // Runs inside the container built by tools/run.sh; the repo is mounted at /work.
 import { chromium } from "playwright";
 import { mkdir, rm, writeFile } from "node:fs/promises";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 
 const width = 800;
 const height = 600;
@@ -12,6 +12,25 @@ const fps = 8;
 const colors = 40;
 const out = "/work/docs/showcase.gif";
 const frames = "/tmp/frames";
+// Play the tour this many times faster than real time. libfaketime speeds up
+// every clock and timer in Node and Chromium alike, so pauses, transitions,
+// smooth scrolling and frame timestamps all stay in step, and recording takes
+// a fraction of the gif's length.
+const speed = 4;
+
+if (!process.env.FAKETIME) {
+  const { status } = spawnSync(
+    "faketime",
+    ["-m", "-f", `+0 x${speed}`, process.execPath, ...process.argv.slice(1)],
+    {
+      stdio: "inherit",
+      // Speed up the monotonic clock too, which Node's timers and Chromium's
+      // frames run on; faketime leaves it alone by default.
+      env: { ...process.env, FAKETIME_DONT_FAKE_MONOTONIC: "0" },
+    },
+  );
+  process.exit(status ?? 1);
+}
 
 const browser = await chromium.launch();
 const page = await browser.newPage({
@@ -29,7 +48,12 @@ await page.addStyleTag({
     background: rgb(0 0 0 / 0.35); box-shadow: 0 1px 4px rgb(0 0 0 / 0.4);
     opacity: 1; translate: none; transition: scale 0.15s; pointer-events: none;
   }
-  #tour-pointer.down { scale: 0.7; }`,
+  #tour-pointer.down { scale: 0.7; }
+  #tour-options { margin: 0.25rem 0; max-width: none; overflow-y: auto; position-area: none; }
+  #tour-options li:not(:has(button)) {
+    padding: 0.75rem 0.75rem 0.25rem; color: var(--on-surface-variant); font: var(--label);
+  }
+  #tour-options [aria-current] { --bg: var(--secondary-container); color: var(--on-secondary-container); }`,
 });
 await page.evaluate(() => {
   const dot = document.createElement("i");
@@ -43,6 +67,58 @@ await page.evaluate(() => {
   addEventListener("mousemove", move, true);
   addEventListener("mousedown", () => dot.classList.add("down"), true);
   addEventListener("mouseup", () => dot.classList.remove("down"), true);
+
+  // A select's option list is drawn by the browser outside the page, so it
+  // never shows in the frames. Open a look-alike menu in its place instead. It
+  // goes inside the select's popover, if any, so clicking it doesn't
+  // light-dismiss the drawer.
+  const menu = document.createElement("menu");
+  menu.id = "tour-options";
+  menu.popover = "manual";
+  const item = (select, option) => {
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    button.value = option.value;
+    button.textContent = option.label;
+    if (option.selected) button.ariaCurrent = "true";
+    button.onclick = () => {
+      select.value = option.value;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      menu.hidePopover();
+    };
+    li.append(button);
+    return li;
+  };
+  const heading = (group) => {
+    const li = document.createElement("li");
+    li.textContent = group.label;
+    return li;
+  };
+  addEventListener(
+    "mousedown",
+    (e) => {
+      const select = e.target.closest("select");
+      if (!select) return;
+      e.preventDefault();
+      menu.replaceChildren(
+        ...[...select.children].flatMap((child) =>
+          child.tagName === "OPTGROUP"
+            ? [
+                heading(child),
+                ...[...child.children].map((o) => item(select, o)),
+              ]
+            : [item(select, child)],
+        ),
+      );
+      const box = select.getBoundingClientRect();
+      menu.style.inset = `${box.bottom}px auto auto ${box.left}px`;
+      menu.style.width = `${box.width}px`;
+      menu.style.maxHeight = `${innerHeight - box.bottom - 16}px`;
+      (select.closest("[popover]") ?? document.body).append(menu);
+      menu.showPopover();
+    },
+    true,
+  );
 });
 
 const pause = (ms) => page.waitForTimeout(ms);
@@ -99,13 +175,12 @@ async function scrollTo(selector) {
   await pause(300);
 }
 
-// Pick from the drawer's theme select. Its option list is drawn by the browser
-// outside the page, so it never shows in the frames; skip opening it.
+// Pick from the drawer's theme select, through the look-alike option list.
 async function pickTheme(theme) {
-  await hover('body > nav select[name="theme"]');
-  await pause(200);
-  await page.selectOption('body > nav select[name="theme"]', theme);
-  await pause(700);
+  await click('body > nav select[name="theme"]');
+  await pause(400);
+  await click(`#tour-options button[value="${theme}"]`);
+  await pause(600);
 }
 
 async function tour() {
@@ -191,6 +266,9 @@ await cdp.send("Page.startScreencast", {
   format: "png",
   maxWidth: width,
   maxHeight: height,
+  // Plenty for the frame rate, and half the PNGs to encode and decode, work
+  // that runs on the sped-up clock and would otherwise drag the tour out.
+  everyNthFrame: 2,
 });
 await tour();
 await cdp.send("Page.stopScreencast");

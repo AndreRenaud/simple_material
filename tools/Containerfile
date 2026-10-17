@@ -1,8 +1,9 @@
-# Headless Chromium, Firefox and WebKit, the Playwright library and ffmpeg, kept
-# entirely inside the image. run.sh mounts the repo at /work at run time.
+# Headless Chromium, Firefox and WebKit, the Playwright library, ffmpeg and
+# libfaketime, kept entirely inside the image. run.sh mounts the repo at /work at
+# run time.
 FROM mcr.microsoft.com/playwright:v1.64.1-noble
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends ffmpeg \
+  && apt-get install -y --no-install-recommends faketime ffmpeg \
   && rm -rf /var/lib/apt/lists/*
 WORKDIR /opt/tools
 RUN npm install --no-audit --no-fund --no-save playwright@1.64.1
